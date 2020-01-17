@@ -1,25 +1,25 @@
 import React from "react";
 import fetch from "isomorphic-unfetch";
+import BlogList from "../components/BlogList";
 import LayoutTop from "../components/LayoutTop";
-import Blog from "../components/Blog";
 
-const BlogPost = ({ post, props }) => (
+const Blogs = ({ posts, props }) => (
   <div className="layout">
     <LayoutTop props={props}></LayoutTop>
     <div className="content-background container-fluid">
       <div className="content-container container">
-        <Blog post={post}></Blog>
+        <BlogList posts={posts}></BlogList>
       </div>
     </div>
   </div>
 );
 
-BlogPost.getInitialProps = async ({ req, query }) => {
+Blogs.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch(`http://localhost:3000/api/post/${query.postId}`);
+  const res = await fetch("http://localhost:3000/api/posts");
   const json = await res.json();
   const blogConfig = await import("../src/config.json");
-  return { post: json.post, props: blogConfig };
+  return { posts: json.posts, props: blogConfig };
 };
 
-export default BlogPost;
+export default Blogs;
