@@ -22,7 +22,7 @@ const Blog = ({ post }) => {
       </div>
       <div className="blog-date">{post.date}</div>
       <div className="blog-bottom">
-        <Comment postId={post.slug}></Comment>
+        {/* <Comment postId={post.slug}></Comment> */}
       </div>
     </div>
   );

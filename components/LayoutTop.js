@@ -1,12 +1,11 @@
 import Header from "./Header";
 import Meta from "./Meta";
 
-export default function LayoutTop({ props }) {
+export default function LayoutTop() {
   return (
     <section className="layout">
-      <Meta props={props}></Meta>
-      <Header props={props}></Header>
-      {/* <div className="content">{props.children}</div> */}
+      <Meta></Meta>
+      <Header></Header>
     </section>
   );
 }

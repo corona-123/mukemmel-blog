@@ -1,20 +1,13 @@
 import Link from "next/link";
-import Head from "next/head";
 import Nav from "./nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faInstagram,
-  faTwitter,
   faLinkedinIn,
-  faGit,
-  faUsb
+  faGit
 } from "@fortawesome/free-brands-svg-icons";
-import Meta from "./Meta";
 
-library.add(faInstagram, faLinkedinIn, faTwitter, faGit, faUsb);
-
-export default function Header({ props }) {
+export default function Header() {
   return (
     <section className="header">
       <Nav></Nav>
@@ -29,29 +22,35 @@ export default function Header({ props }) {
           />
         </h1>
         <div className="hero-social-information">
-          <h1 className="hero-title">{props.name}</h1>
+          <h1 className="hero-title">Dorukhan Nerede</h1>
           <div className="hero-social-links">
-            {props.links.map(({ href, name, username }) => (
-              <Link key={`${name}/${href}`} href={href}>
-                <a className="social-link" title={username}>
-                  <FontAwesomeIcon
-                    width="21px"
-                    icon={
-                      name == "Instagram"
-                        ? faInstagram
-                        : name == "Twitter"
-                        ? faTwitter
-                        : name == "LinkedIn"
-                        ? faLinkedinIn
-                        : name == "GitHub"
-                        ? faGit
-                        : faUsb
-                    }
-                  ></FontAwesomeIcon>
-                  <p>{`${username}`}</p>
-                </a>
-              </Link>
-            ))}
+            <Link key="Instagram" href="www.instagram.com/dorukhannerede/">
+              <a className="social-link" title="@dorukhannerede">
+                <FontAwesomeIcon
+                  width="21px"
+                  icon={faInstagram}
+                ></FontAwesomeIcon>
+                <p>@dorukhannerede</p>
+              </a>
+            </Link>
+            <Link
+              key="LinkedIn"
+              href="www.linkedin.com/in/dorukhan-nerede-441ba9161/"
+            >
+              <a className="social-link" title="Dorukhan Nerede">
+                <FontAwesomeIcon
+                  width="21px"
+                  icon={faLinkedinIn}
+                ></FontAwesomeIcon>
+                <p>Dorukhan Nerede</p>
+              </a>
+            </Link>
+            <Link key="GitHub" href="github.com/dorukhanerede">
+              <a className="social-link" title="@dorukhanerede">
+                <FontAwesomeIcon width="21px" icon={faGit}></FontAwesomeIcon>
+                <p>@dorukhanerede</p>
+              </a>
+            </Link>
           </div>
         </div>
         <style jsx>{`

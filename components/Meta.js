@@ -1,14 +1,27 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
-export default function Meta({ props }) {
+export default function Meta() {
+  const router = useRouter();
+  const slug = router.pathname;
+  const postId = router.query.postId;
+  let title;
+  if (slug == "/") {
+    title = "Home";
+  } else {
+    title = slug.replace(/\//g, " ");
+    if (postId != undefined) {
+      title = `Blogs/ ${postId}`;
+    }
+  }
   return (
     <section>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
-        <title>{`${props.title} - `}</title>
-        <meta name="Description" content={props.description}></meta>
-        <link rel="icon" href={props.thumbnailIcon} />
+        <title>{`DN - ${title}`}</title>
+        <meta name="Description" content="Mükemmel(!) Blog"></meta>
+        <link rel="icon" href="/thumbnailIcon.ico" />
         <link
           rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -21,11 +34,16 @@ export default function Meta({ props }) {
           * {
             box-sizing: inherit;
           }
+          // #__next {
+          //   height: 100%;
+          // }
           html {
+            height: 100%;
             box-sizing: border-box;
             overflow-y: scroll;
           }
           body {
+            height: 100%;
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
               Helvetica, sans-serif;
@@ -36,6 +54,12 @@ export default function Meta({ props }) {
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            background: rgb(238, 174, 202);
+            background: radial-gradient(
+              circle,
+              rgba(238, 174, 202, 1) 0%,
+              rgba(148, 187, 233, 1) 100%
+            );
           }
           a {
             text-decoration: none;
@@ -156,6 +180,7 @@ export default function Meta({ props }) {
           }
           .layout {
             width: 100%;
+            height: 100%;
             margin: 0 auto;
             background: rgb(238, 174, 202);
             background: radial-gradient(
@@ -171,11 +196,12 @@ export default function Meta({ props }) {
             margin-top: -50px;
             padding-top: 5px;
           }
-          // .content-container {
-          //   max-width: 800px;
-          //   margin: 0 auto;
-          //   border: 4px;
-          // }
+          .login-container {
+            height: 100%;
+          }
+          .content-container {
+            height: 100%;
+          }
           .blog {
             border: 4px solid #ebebebe;
             border-radius: 2% 2%;
@@ -211,6 +237,142 @@ export default function Meta({ props }) {
           .z-depth-1 {
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
               0 2px 10px 0 rgba(0, 0, 0, 0.12);
+          }
+          .back-container {
+            cursor: pointer;
+          }
+          .back-container:hover {
+            opacity: 0.9;
+            text-decoration-color: inherit;
+          }
+          .back {
+            width: fit-content;
+            background: #282726;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+              0 9px 26px 0 rgba(0, 0, 0, 0.19);
+            padding: 5px;
+            border-radius: 25%;
+            color: #fff;
+            font-size: 30px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+          }
+          .back h2 {
+            color: #fff;
+            height: 100%;
+            margin: 0;
+            margin-left: 10px;
+          }
+           {
+            /* //section------------------------------------- */
+          }
+          html,
+          body {
+            background-repeat: no-repeat;
+            background: rgb(238, 174, 202);
+            background: radial-gradient(
+              circle,
+              rgba(238, 174, 202, 1) 0%,
+              rgba(148, 187, 233, 1) 100%
+            );
+            height: 100%;
+          }
+
+          .container {
+            height: 100%;
+            align-content: center;
+          }
+
+          .card {
+            height: 370px;
+            margin-top: auto;
+            margin-bottom: auto;
+            width: 400px;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+          }
+
+          .login-container {
+            margin-top: 5%;
+            margin-bottom: 5%;
+          }
+          .login-logo {
+            // position: relative;
+            margin-left: -100px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+          }
+          .login-logo:hover {
+            margin-left: -30px;
+            opacity: 1;
+            text-decoration-color: inherit;
+          }
+          .login-logo img {
+            position: absolute;
+            width: 180px;
+            margin-top: 19%;
+            background: #282726;
+            border-radius: 4.5rem;
+            padding: 5px;
+            transform: rotate(90deg);
+            transition: all 0.2s ease;
+          }
+          .login-logo img:hover {
+            transform: rotate(0deg);
+          }
+          .login-form-1 {
+            padding: 10%;
+            background: #282726;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+              0 9px 26px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+            width: 55%;
+          }
+          .login-form-1 h1 {
+            text-align: center;
+            margin-bottom: 12%;
+            color: #fff;
+          }
+
+          .btnSubmit {
+            font-weight: 600;
+            width: 50%;
+            color: #282726;
+            background-color: #fff;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+          }
+          .btnForgetPwd {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+          }
+          .btnForgetPwd:hover {
+            text-decoration: none;
+            color: #fff;
+          }
+
+          .mini-profile {
+            width: 75px;
+            background: #fff;
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+              0 9px 26px 0 rgba(0, 0, 0, 0.19);
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            color: #464646;
+            font-size: 15px;
+            align-items: center;
+            border: 2px solid #464646;
+            height: 75px;
+          }
+          .mini-profile-container {
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            right: 0;
           }
 
            {

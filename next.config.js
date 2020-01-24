@@ -1,6 +1,8 @@
 const withSass = require("@zeit/next-sass");
 const withCSS = require("@zeit/next-css");
 const withFonts = require("next-fonts");
+const webPack = require("webpack");
+require("dotenv").config();
 
 module.exports = withCSS(
   withFonts(
@@ -10,6 +12,11 @@ module.exports = withCSS(
           test: /\.md$/,
           use: "raw-loader"
         });
+        const env = Object.keys(process.env).reduce((acc, curr) => {
+          acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
+          return acc;
+        }, {});
+        config.plugins.push(new webPack.DefinePlugin(env));
         return config;
       }
     })
