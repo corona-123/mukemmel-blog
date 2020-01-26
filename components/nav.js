@@ -5,12 +5,12 @@ const Nav = props => (
   <nav>
     <ul>
       <Link href="/">
-        <li key="nav-home">Home</li>
+        <li key="nav-Blogs">Blogs</li>
       </Link>
-      <Link href="/Blogs">
-        <li key="nav-blogs">Blogs</li>
+      <Link href="/CreateBlog">
+        <li key="nav-create-blog">Create Blog</li>
       </Link>
-      <Link href="/Login">
+      <Link href="/About">
         <li key="nav-about">
           <a>About</a>
         </li>

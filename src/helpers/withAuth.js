@@ -15,9 +15,15 @@ const withAuth = Component => {
       auth.onAuthStateChanged(authUser => {
         console.log(authUser);
         if (authUser) {
-          this.setState({
-            status: "SIGNED_IN"
-          });
+          if (authUser.isAnonymous) {
+            this.setState({
+              status: "GUEST"
+            });
+          } else {
+            this.setState({
+              status: "SIGNED_IN"
+            });
+          }
         } else {
           router.push("/Login");
         }
@@ -28,6 +34,8 @@ const withAuth = Component => {
       if (status == "LOADING") {
         return <Loading></Loading>;
       } else if (status == "SIGNED_IN") {
+        return <Component {...this.props} />;
+      } else if (status == "GUEST") {
         return <Component {...this.props} />;
       }
     }
