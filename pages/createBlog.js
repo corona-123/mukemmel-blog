@@ -165,7 +165,9 @@ class CreateBlog extends React.Component {
 
 CreateBlog.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch("http://localhost:3000/api/posts");
+  const res = await fetch(
+    "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
+  );
   const json = await res.json();
 
   return { posts: json.posts };

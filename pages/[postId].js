@@ -81,7 +81,9 @@ class BlogPost extends React.Component {
 
 BlogPost.getInitialProps = async ({ req, query }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch(`http://localhost:3000/api/post/${query.postId}`);
+  const res = await fetch(
+    `http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/post/${query.postId}`
+  );
   // console.log(query.postId);
   return { postId: query.postId };
 };
