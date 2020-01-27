@@ -17,11 +17,11 @@ const About = ({ posts }) => (
 
 About.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch(
-    "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
-  );
-  const json = await res.json();
-  return { posts: json.posts };
+  // const res = await fetch(
+  //   "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
+  // );
+  // const json = await res.json();
+  return { posts: null };
 };
 
 export default withAuth(About);
