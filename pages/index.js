@@ -115,10 +115,10 @@ class Home extends React.Component {
 
 Home.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  const res = await fetch(
-    "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
-  );
-  const json = await res.json();
+  // const res = await fetch(
+  //   "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
+  // );
+  // const json = await res.json();
 
   // let result = firestore
   //   .collection("users")
