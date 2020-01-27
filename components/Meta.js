@@ -264,6 +264,64 @@ export default function Meta() {
             margin: 0;
             margin-left: 10px;
           }
+          .btn-rounded {
+            border-radius: 10em;
+          }
+          .btn-mdb-color {
+            color: #fff;
+            background-color: #59698d !important;
+          }
+          .waves-effect {
+            position: relative;
+            overflow: hidden;
+            height: fit-content;
+          }
+          .file-field {
+            cursor: pointer;
+            z-indez: 100;
+            align-items: center;
+            text-transform: uppercase;
+          }
+          .file-field input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+          }
+          .submit-field {
+            cursor: pointer;
+            z-indez: 100;
+            text-transform: uppercase;
+          }
+          .submit-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+          }
+          .create-post {
+            padding: 10%;
+            background: rgba(250, 250, 250, 1);
+            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+              0 9px 26px 0 rgba(0, 0, 0, 0.19);
+            // text-align: center;
+            width: 100%;
+            border-radius: 10em;
+          }
            {
             /* //section------------------------------------- */
           }

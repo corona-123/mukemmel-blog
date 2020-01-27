@@ -4,10 +4,10 @@ import Comment from "./Comment";
 
 const Blog = ({ post }) => {
   return (
-    <div key={post.title} className="blog">
+    <div className="blog">
       <Link href={post.slug}>
         <img
-          src={`/${post.hero_image}.jpg`}
+          src={post.hero_image}
           alt={post.hero_image}
           className="blog-image"
         ></img>
