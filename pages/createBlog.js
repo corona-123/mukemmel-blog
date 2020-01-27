@@ -16,11 +16,8 @@ class CreateBlog extends React.Component {
       image: "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
     };
   }
-  componentDidUpdate() {
-    console.log("image " + this.state.image.toString());
-    console.log("title " + this.state.title);
-    console.log("details " + this.state.details);
-  }
+  componentDidMount() {}
+  componentDidUpdate() {}
   createPost = async () => {
     let authorName = "Guest";
     if (auth != null) {
@@ -34,33 +31,30 @@ class CreateBlog extends React.Component {
         title: this.state.title,
         date: firebase.firestore.Timestamp.now(),
         comments: [],
-        author: authorName
+        author: authorName,
+        details: this.state.details
       })
       .then(docRef => {
         docPath = docRef.id;
         console.log("Document successfully written! : ", docRef.id);
-        Router.push("/");
       })
       .catch(error => {
         console.error("Error writing document: ", error);
       })
       .then(() => {
-        let getimg = new Blob([this.state.image]);
         var ref = firebase
           .storage()
           .ref()
-          .child(`posts/${docPath}/photo`);
-        ref.put(getimg, { contentType: "image/jpeg" });
+          .child(`posts/${docPath}/photo.jpg`);
+        ref.put(this.state.image);
       })
       .then(() => {
         console.log("image uploaded");
-        // Router.push("/");
+        Router.push("/");
       })
       .catch(err => {
         console.log(err);
-        let fillImg = new Blob([
-          "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-        ]);
+        Router.push("/");
       });
   };
   // getBlob = async uri => {
@@ -79,6 +73,13 @@ class CreateBlog extends React.Component {
   //   return blob;
   // };
   render() {
+    let img;
+    if (
+      this.state.image !=
+      "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+    )
+      img = URL.createObjectURL(this.state.image);
+    else img = this.state.image;
     return (
       <div className="layout">
         <LayoutTop></LayoutTop>
@@ -91,9 +92,9 @@ class CreateBlog extends React.Component {
             <div className="form-group file-field">
               <div className="z-depth-1-half mb-4 col-sm text-center">
                 <img
-                  src={this.state.image}
+                  src={img}
                   className="img-fluid border border-dark"
-                  alt="example placeholder"
+                  alt="placeholder"
                 />
               </div>
               <div className="w-100 text-center">
@@ -102,8 +103,9 @@ class CreateBlog extends React.Component {
                   <input
                     type="file"
                     onChange={e => {
+                      console.log(e.target.files.item(0));
                       this.setState({
-                        image: URL.createObjectURL(e.target.files.item(0))
+                        image: e.target.files.item(0)
                       });
                     }}
                   />

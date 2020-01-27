@@ -11,9 +11,7 @@ const Nav = props => (
         <li key="nav-create-blog">Create Blog</li>
       </Link>
       <Link href="/About">
-        <li key="nav-about">
-          <a>About</a>
-        </li>
+        <li key="nav-about">About</li>
       </Link>
     </ul>
     <style jsx>{`
@@ -22,6 +20,7 @@ const Nav = props => (
         text-align: center;
         padding: 1rem 3.5rem;
         width: 100%;
+        z-index: 100;
       }
       ul {
         display: flex;
@@ -39,7 +38,8 @@ const Nav = props => (
         color: #067df7;
         text-decoration: none;
         font-size: 21px;
-        opacity: 0.5;
+        opacity: 0.9;
+        border: 1px solid #cccccc;
       }
       nav a {
         color: #067df7;
@@ -52,20 +52,19 @@ const Nav = props => (
         color: #022222;
       }
       li:hover {
+        opacity: 1;
         cursor: pointer;
-        // padding: 22px 42px;
         background: rgb(148, 187, 233);
         border-radius: 28%;
-        background: linear-gradient(
-          0deg,
-          rgba(148, 187, 233, 0.3267682072829131) 0%,
-          rgba(238, 174, 202, 0.34637605042016806) 26%,
-          rgba(250, 250, 250, 0.1783088235294118) 68%
-        );
+        // background: linear-gradient(
+        //   0deg,
+        //   rgba(148, 187, 233, 0.3267682072829131) 0%,
+        //   rgba(238, 174, 202, 0.34637605042016806) 26%,
+        //   rgba(250, 250, 250, 0.1783088235294118) 68%
+        // );
         box-shadow: 0 4px 8px 0 rgba(0, 140, 186, 0.5),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         color: #022222;
-        opacity: 1;
       }
     `}</style>
   </nav>

@@ -18,7 +18,7 @@ class BlogPost extends React.Component {
       comments: [],
       slug: "",
       hero_image: null,
-      details: null
+      details: ""
     };
   }
 
@@ -37,14 +37,15 @@ class BlogPost extends React.Component {
               1000
           ).toDateString("dd/mm/yyyy"),
           comments: snapshot.data().comments,
-          slug: snapshot.id
+          slug: snapshot.id,
+          details: snapshot.data().details
         });
       })
       .catch(err => console.log(err))
       .then(() => {
         let ref = firebase.storage().ref(`posts/${this.props.postId}`);
         ref
-          .child("photo")
+          .child("photo.jpg")
           .getDownloadURL()
           .then(photo => {
             this.setState({
@@ -58,29 +59,11 @@ class BlogPost extends React.Component {
                 "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
             });
           });
-        ref
-          .child("photo")
-          .getDownloadURL()
-          .then(details => {
-            this.setState({
-              details: details
-            });
-          })
-          .catch(err => {
-            console.log(err);
-            this.setState({
-              details: "rr"
-            });
-          });
       })
       .catch(err => {
         console.log(err);
       });
   };
-
-  componentDidUpdate() {
-    // console.log(this.state);
-  }
 
   render() {
     return (

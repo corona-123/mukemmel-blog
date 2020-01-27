@@ -7,86 +7,105 @@ import "firebase/storage";
 import BlogList from "../components/BlogList";
 import "firebase/database";
 import "firebase";
+import Comment from "../components/Comment";
+import Loading from "../components/Loading";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      isLoading: true,
+      sorted: null
     };
   }
   getPosts = async () => {
     await firestore
       .collection("posts")
-      .limit(5)
       .get()
       .then(doc => {
         if (doc != null) {
           doc.forEach(post => {
             let image = null;
             let details = null;
-            let ref = firebase.storage().ref(`posts/${post.slug}`);
+            let ref = firebase.storage().ref(`posts/${post.id}`);
             ref
-              .child("photo")
+              .child("photo.jpg")
               .getDownloadURL()
               .then(photo => {
                 image = photo;
               })
               .catch(err => {
-                console.log(err);
+                console.log("err");
                 image =
                   "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
               })
               .then(() => {
-                ref
-                  .child("details")
-                  .getDownloadURL()
-                  .then(detail => {
-                    details = detail;
-                  })
-                  .catch(err => {
-                    details = "./posts/ornek-yazi.md";
-                    console.log(err);
-                  })
-                  .then(() => {
-                    this.setState({
-                      posts: [
-                        ...this.state.posts,
-                        {
-                          title: post.data().title,
-                          author: post.data().author,
-                          date: new Date(
-                            (post.data().date.seconds +
-                              post.data().date.nanoseconds / 1000000000) *
-                              1000
-                          ).toDateString("dd/mm/yyyy"),
-                          comments: post.data().comments,
-                          slug: post.id,
-                          hero_image: image,
-                          details: details
-                        }
-                      ]
-                    });
-                  });
+                this.setState({
+                  posts: [
+                    ...this.state.posts,
+                    {
+                      title: post.data().title,
+                      author: post.data().author,
+                      date: new Date(
+                        (post.data().date.seconds +
+                          post.data().date.nanoseconds / 1000000000) *
+                          1000
+                      ).toDateString("dd/mm/yyyy"),
+                      comments: post.data().comments,
+                      slug: post.id,
+                      hero_image: image,
+                      details: post.data().details,
+                      dateSorter:
+                        (post.data().date.seconds +
+                          post.data().date.nanoseconds / 1000000000) *
+                        1000
+                    }
+                  ],
+                  sorted: false
+                });
               });
           });
         }
       })
       .catch(err => console.log(err));
   };
-  componentDidUpdate() {}
+  sortNumber(a, b) {
+    return b - a;
+  }
+  componentDidUpdate() {
+    if (!this.state.sorted) {
+      this.sortPosts();
+    }
+  }
+  sortPosts() {
+    let posts = [];
+    let postTimes = [];
+    this.state.posts.forEach(post => postTimes.push(post.dateSorter));
+    postTimes.sort(this.sortNumber);
+    postTimes.forEach(time => {
+      this.state.posts.forEach(post => {
+        if (time == post.dateSorter) posts.push(post);
+      });
+    });
+    this.setState({
+      posts: posts,
+      sorted: true
+    });
+  }
   componentDidMount() {
     this.getPosts();
+    this.setState({ isLoading: false });
   }
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Loading></Loading>
+    ) : (
       <div className="layout">
         <LayoutTop></LayoutTop>
         <div className="content-background container-fluid">
           <div className="content-container container">
-            {/* <img src={}></img> */}
             <BlogList posts={this.state.posts}></BlogList>
-            {/* {console.log(this.state.posts)} */}
           </div>
         </div>
       </div>

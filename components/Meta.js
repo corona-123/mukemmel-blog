@@ -38,12 +38,12 @@ export default function Meta() {
           //   height: 100%;
           // }
           html {
-            height: 100%;
+            // height: 100%;
             box-sizing: border-box;
             overflow-y: scroll;
           }
           body {
-            height: 100%;
+            // height: 100%;
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
               Helvetica, sans-serif;
@@ -180,7 +180,7 @@ export default function Meta() {
           }
           .layout {
             width: 100%;
-            height: 100%;
+            // height: 100%;
             margin: 0 auto;
             background: rgb(238, 174, 202);
             background: radial-gradient(
@@ -195,6 +195,7 @@ export default function Meta() {
             border-radius: 150px 150px 0 0;
             margin-top: -50px;
             padding-top: 5px;
+            padding-bottom: 10px;
           }
           .login-container {
             height: 100%;
@@ -227,6 +228,12 @@ export default function Meta() {
             box-shadow: 0 4px 8px 0 rgba(0, 140, 186, 0.5),
               0 6px 20px 0 rgba(0, 0, 0, 0.19);
             cursor: pointer;
+          }
+          .shadow-textarea {
+            border: 1px solid #cccccc;
+            border-radius: 1em;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 5px;
           }
           .shadow-textarea textarea.form-control::placeholder {
             font-weight: 300;
@@ -322,6 +329,13 @@ export default function Meta() {
             width: 100%;
             border-radius: 10em;
           }
+          .comment-date {
+            text-align: right;
+            color: #cccccc;
+            margin: 12px 0 48px 0;
+            align-self: flex-end;
+            margin-bottom: 0;
+          }
            {
             /* //section------------------------------------- */
           }
@@ -334,7 +348,7 @@ export default function Meta() {
               rgba(238, 174, 202, 1) 0%,
               rgba(148, 187, 233, 1) 100%
             );
-            height: 100%;
+            // height: 100%;
           }
 
           .container {
