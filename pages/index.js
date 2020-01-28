@@ -26,7 +26,7 @@ class Home extends React.Component {
             let image = null;
             let details = null;
             let ref = firebase.storage().ref(`posts/${post.id}`);
-            let child = ref
+            ref
               .child("photo.jpg")
               .getDownloadURL()
               .then(photo => {

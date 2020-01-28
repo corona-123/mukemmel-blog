@@ -10,8 +10,9 @@ const Blog = ({ post, caller }) => {
   let commentText = "";
   let commentor = "Guest";
   async function handleSubmitComment() {
-    if (auth != null && auth != undefined)
+    if (auth.currentUser != null && auth.currentUser != undefined) {
       commentor = auth.currentUser.displayName;
+    }
     let commentsArr = [];
     let getPost = await firestore
       .collection("posts")
