@@ -61,11 +61,34 @@ class Home extends React.Component {
                   ],
                   sorted: false
                 });
-              });
+              })
+              .catch(err => console.log(err));
           });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .then(() => {
+        firestore.collection("posts").onSnapshot(col => {
+          // this.setState({
+          //   posts: doc.
+          // });
+          // console.log(this.state.posts.find(x => x.title == "1"));
+          col.docChanges().forEach(change => {
+            if (change.type == "modified") {
+              let newPosts = this.state.posts.slice();
+              newPosts[change.oldIndex - 1] = {
+                ...newPosts[change.oldIndex - 1],
+                title: change.doc.data().title,
+                details: change.doc.data().details,
+                comments: change.doc.data().comments
+              };
+              this.setState({
+                posts: newPosts
+              });
+            }
+          });
+        });
+      });
   };
   sortNumber(a, b) {
     return b - a;
