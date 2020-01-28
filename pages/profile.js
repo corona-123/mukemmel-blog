@@ -18,8 +18,9 @@ class ProfileBlogs extends React.Component {
   }
   getPosts = async () => {
     let searchAuthor = "Guest";
-    if (auth != undefined && auth != null) {
-      searchAuthor = auth.currentUser.displayName;
+    if (auth.currentUser != undefined && auth.currentUser != null) {
+      if (!auth.currentUser.isAnonymous)
+        searchAuthor = auth.currentUser.displayName;
     }
     await firestore
       .collection("posts")

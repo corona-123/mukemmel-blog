@@ -11,7 +11,8 @@ const Blog = ({ post, caller }) => {
   let commentor = "Guest";
   async function handleSubmitComment() {
     if (auth.currentUser != null && auth.currentUser != undefined) {
-      commentor = auth.currentUser.displayName;
+      if (!auth.currentUser.isAnonymous)
+        commentor = auth.currentUser.displayName;
     }
     let commentsArr = [];
     let getPost = await firestore
@@ -35,7 +36,8 @@ const Blog = ({ post, caller }) => {
       )
       .then(() => {
         alert("Comment sent...");
-        if (Router.route == "/") Router.push(`/${post.slug}`);
+        if (Router.route == "/" || Router.route == "/profile")
+          Router.push(`/${post.slug}`);
       })
       .catch(err => {
         console.log(err);
