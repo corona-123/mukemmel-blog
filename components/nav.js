@@ -1,16 +1,16 @@
 import React from "react";
 import Link from "next/link";
 
-const Nav = props => (
+const Nav = () => (
   <nav>
     <ul>
       <Link href="/">
         <li key="nav-Blogs">Blogs</li>
       </Link>
-      <Link href="/CreateBlog">
+      <Link href="/createBlog">
         <li key="nav-create-blog">Create Blog</li>
       </Link>
-      <Link href="/About">
+      <Link href="/about">
         <li key="nav-about">About</li>
       </Link>
     </ul>
