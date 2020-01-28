@@ -62,8 +62,19 @@ class BlogPost extends React.Component {
       })
       .catch(err => {
         console.log(err);
+      })
+      .then(() => {
+        firestore
+          .collection("posts")
+          .doc(this.props.postId)
+          .onSnapshot(doc => {
+            this.setState({
+              comments: doc.data().comments
+            });
+          });
       });
   };
+  componentDidUpdate() {}
 
   render() {
     return (

@@ -10,8 +10,8 @@ const Nav = () => (
       <Link href="/createBlog">
         <li key="nav-create-blog">Create Blog</li>
       </Link>
-      <Link href="/about">
-        <li key="nav-about">About</li>
+      <Link href="/profile">
+        <li key="nav-about">Profile</li>
       </Link>
     </ul>
     <style jsx>{`

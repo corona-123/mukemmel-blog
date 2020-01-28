@@ -1,13 +1,13 @@
 import React from "react";
 import LayoutTop from "../components/LayoutTop";
-import { firebase, firestore } from "../src/firebase/index";
+import { firebase, auth, firestore } from "../src/firebase/index";
 import withAuth from "../src/helpers/withAuth";
 import "firebase/storage";
 import BlogList from "../components/BlogList";
 import "firebase/database";
 import Loading from "../components/Loading";
 
-class Home extends React.Component {
+class ProfileBlogs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,8 +17,13 @@ class Home extends React.Component {
     };
   }
   getPosts = async () => {
+    let searchAuthor = "Guest";
+    if (auth != undefined && auth != null) {
+      searchAuthor = auth.currentUser.displayName;
+    }
     await firestore
       .collection("posts")
+      .where("author", "==", searchAuthor)
       .get()
       .then(doc => {
         if (doc != null) {
@@ -26,14 +31,14 @@ class Home extends React.Component {
             let image = null;
             let details = null;
             let ref = firebase.storage().ref(`posts/${post.id}`);
-            let child = ref
+            ref
               .child("photo.jpg")
               .getDownloadURL()
               .then(photo => {
                 image = photo;
               })
               .catch(err => {
-                console.log(err);
+                console.log("err");
                 image =
                   "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
               })
@@ -102,6 +107,9 @@ class Home extends React.Component {
         <LayoutTop></LayoutTop>
         <div className="content-background container-fluid">
           <div className="content-container container">
+            <h1 className="display-1 mt-5">
+              <u>Your Posts : </u>
+            </h1>
             <BlogList posts={this.state.posts}></BlogList>
           </div>
         </div>
@@ -110,7 +118,7 @@ class Home extends React.Component {
   }
 }
 
-Home.getInitialProps = async ({ req }) => {
+ProfileBlogs.getInitialProps = async ({ req }) => {
   // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
   // const res = await fetch(
   //   "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
@@ -130,4 +138,4 @@ Home.getInitialProps = async ({ req }) => {
   return { posts: null };
 };
 
-export default withAuth(Home);
+export default withAuth(ProfileBlogs);

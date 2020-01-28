@@ -19,7 +19,7 @@ export default function Meta() {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
-        <title>{`DN - ${title}`}</title>
+        <title>{`DN - ${title.toUpperCase()}`}</title>
         <meta name="Description" content="Mükemmel(!) Blog"></meta>
         <link rel="icon" href="/thumbnailIcon.ico" />
         <link
@@ -210,10 +210,17 @@ export default function Meta() {
             padding: 10px 45px;
             margin: 40px auto;
           }
-          .blog-date {
-            text-align: right;
+          .blog-author-container {
+            color: #464646;
+          }
+          .blog-date-author {
+            // text-align: right;
+            display: flex;
             color: #cccccc;
             margin: 12px 0 48px 0;
+          }
+          .blog-author {
+            font-weight: bold;
           }
           .blog-image {
             max-height: 300px;
@@ -335,6 +342,15 @@ export default function Meta() {
             margin: 12px 0 48px 0;
             align-self: flex-end;
             margin-bottom: 0;
+          }
+          .send-comment-button {
+            height: fit-content;
+            padding: 10px;
+            width: fit-content;
+            margin-left: 8px;
+            align-self: center;
+            cursor: pointer;
+            color: #fff !important;
           }
            {
             /* //section------------------------------------- */

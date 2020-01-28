@@ -9,8 +9,8 @@ class CreateBlog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "deneme title",
-      details: "deneme details",
+      title: "",
+      details: "",
       image: "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
     };
   }
@@ -18,58 +18,58 @@ class CreateBlog extends React.Component {
   componentDidUpdate() {}
   createPost = async () => {
     let authorName = "Guest";
-    if (auth != null) {
-      if (!auth.currentUser.isAnonymous)
-        authorName = auth.currentUser.displayName;
+    if (
+      this.state.image !=
+        "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" &&
+      this.state.title != "" &&
+      this.state.details != ""
+    ) {
+      if (auth != null) {
+        if (!auth.currentUser.isAnonymous)
+          authorName = auth.currentUser.displayName;
+      }
+      let docPath = null;
+      let res = await firestore
+        .collection("posts")
+        .add({
+          title: this.state.title,
+          date: firebase.firestore.Timestamp.now(),
+          comments: [],
+          author: authorName,
+          details: this.state.details
+        })
+        .then(docRef => {
+          docPath = docRef.id;
+          console.log("Document successfully written! : ", docRef.id);
+        })
+        .catch(error => {
+          console.error("Error writing document: ", error);
+        })
+        .then(() => {
+          var ref = firebase
+            .storage()
+            .ref()
+            .child(`posts/${docPath}/photo.jpg`);
+          ref.put(this.state.image);
+        })
+        .then(() => {
+          console.log("image uploaded");
+          Router.push("/");
+        })
+        .catch(err => {
+          console.log(err);
+          Router.push("/");
+        });
+    } else {
+      alert(
+        this.state.title == ""
+          ? "Please enter Title!"
+          : this.state.details == ""
+          ? "Please enter Details!"
+          : "Please select an image!"
+      );
     }
-    let docPath = null;
-    let res = await firestore
-      .collection("posts")
-      .add({
-        title: this.state.title,
-        date: firebase.firestore.Timestamp.now(),
-        comments: [],
-        author: authorName,
-        details: this.state.details
-      })
-      .then(docRef => {
-        docPath = docRef.id;
-        console.log("Document successfully written! : ", docRef.id);
-      })
-      .catch(error => {
-        console.error("Error writing document: ", error);
-      })
-      .then(() => {
-        var ref = firebase
-          .storage()
-          .ref()
-          .child(`posts/${docPath}/photo.jpg`);
-        ref.put(this.state.image);
-      })
-      .then(() => {
-        console.log("image uploaded");
-        Router.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-        Router.push("/");
-      });
   };
-  // getBlob = async uri => {
-  //   const blob = await new Promise((resolve, reject) => {
-  //     const xhr = new XMLHttpRequest();
-  //     xhr.onload = function() {
-  //       resolve(xhr.response);
-  //     };
-  //     xhr.onerror = function() {
-  //       reject(new TypeError("Network request failed"));
-  //     };
-  //     xhr.responseType = "blob";
-  //     xhr.open("GET", uri, true);
-  //     xhr.send(null);
-  //   });
-  //   return blob;
-  // };
   render() {
     let img;
     if (
@@ -101,7 +101,6 @@ class CreateBlog extends React.Component {
                   <input
                     type="file"
                     onChange={e => {
-                      console.log(e.target.files.item(0));
                       this.setState({
                         image: e.target.files.item(0)
                       });
