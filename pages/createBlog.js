@@ -101,10 +101,20 @@ class CreateBlog extends React.Component {
                   <input
                     type="file"
                     onChange={e => {
-                      this.setState({
-                        image: e.target.files.item(0)
-                      });
+                      if (
+                        e.target.files.item(0).type != "image/jpeg" &&
+                        e.target.files.item(0).type != "image/png" &&
+                        e.target.files.item(0).type != "image/gif" &&
+                        e.target.files.item(0) != "image/webp"
+                      ) {
+                        alert("You can only upload: GIF/JPEG/JPG/PNG/WEBP !");
+                      } else {
+                        this.setState({
+                          image: e.target.files.item(0)
+                        });
+                      }
                     }}
+                    accept="image/*"
                   />
                 </div>
               </div>
