@@ -24,33 +24,39 @@ export default function Header() {
         <div className="hero-social-information">
           <h1 className="hero-title">Dorukhan Nerede</h1>
           <div className="hero-social-links">
-            <Link key="Instagram" href="www.instagram.com/dorukhannerede/">
-              <a className="social-link" title="@dorukhannerede">
-                <FontAwesomeIcon
-                  width="21px"
-                  icon={faInstagram}
-                ></FontAwesomeIcon>
-                <p>@dorukhannerede</p>
-              </a>
-            </Link>
-            <Link
-              key="LinkedIn"
-              href="www.linkedin.com/in/dorukhan-nerede-441ba9161/"
+            <a
+              className="social-link"
+              title="@dorukhannerede"
+              target="_blank"
+              href="https://instagram.com/dorukhannerede/"
             >
-              <a className="social-link" title="Dorukhan Nerede">
-                <FontAwesomeIcon
-                  width="21px"
-                  icon={faLinkedinIn}
-                ></FontAwesomeIcon>
-                <p>Dorukhan Nerede</p>
-              </a>
-            </Link>
-            <Link key="GitHub" href="github.com/dorukhanerede">
-              <a className="social-link" title="@dorukhanerede">
-                <FontAwesomeIcon width="21px" icon={faGit}></FontAwesomeIcon>
-                <p>@dorukhanerede</p>
-              </a>
-            </Link>
+              <FontAwesomeIcon
+                width="21px"
+                icon={faInstagram}
+              ></FontAwesomeIcon>
+              <p>@dorukhannerede</p>
+            </a>
+            <a
+              className="social-link"
+              title="Dorukhan Nerede"
+              href="https://www.linkedin.com/in/dorukhan-nerede-441ba9161/"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                width="21px"
+                icon={faLinkedinIn}
+              ></FontAwesomeIcon>
+              <p>Dorukhan Nerede</p>
+            </a>
+            <a
+              className="social-link"
+              title="@dorukhanerede"
+              href="https://github.com/dorukhanerede"
+              target="_blank"
+            >
+              <FontAwesomeIcon width="21px" icon={faGit}></FontAwesomeIcon>
+              <p>@dorukhanerede</p>
+            </a>
           </div>
         </div>
         <style jsx>{`

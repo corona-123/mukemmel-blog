@@ -1,13 +1,10 @@
 import React from "react";
-import fetch from "isomorphic-unfetch";
 import LayoutTop from "../components/LayoutTop";
-import { firebase, auth, firestore } from "../src/firebase/index";
+import { firebase, firestore } from "../src/firebase/index";
 import withAuth from "../src/helpers/withAuth";
 import "firebase/storage";
 import BlogList from "../components/BlogList";
 import "firebase/database";
-import "firebase";
-import Comment from "../components/Comment";
 import Loading from "../components/Loading";
 
 class Home extends React.Component {

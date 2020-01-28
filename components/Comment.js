@@ -14,7 +14,7 @@ const Comment = ({ Comment }) => {
   return (
     <div className="media mt-3 shadow-textarea">
       <img
-        class="d-flex rounded-circle avatar z-depth-1-half mr-3"
+        className="d-flex rounded-circle avatar z-depth-1-half mr-3"
         src="http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
         height="100px"
         alt="Avatar"

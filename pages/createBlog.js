@@ -1,6 +1,4 @@
 import React from "react";
-import fetch from "isomorphic-unfetch";
-import BlogList from "../components/BlogList";
 import LayoutTop from "../components/LayoutTop";
 import withAuth from "../src/helpers/withAuth";
 import { firebase, auth, firestore } from "../src/firebase/index";

@@ -9,7 +9,7 @@ const About = ({ posts }) => (
     <LayoutTop></LayoutTop>
     <div className="content-background container-fluid">
       <div className="content-container container">
-        <BlogList posts={posts}></BlogList>
+        {/* <BlogList posts={posts}></BlogList> */}
       </div>
     </div>
   </div>

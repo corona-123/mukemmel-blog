@@ -25,9 +25,9 @@ const Blog = ({ post, caller }) => {
       <div className="blog-bottom">
         {caller == "bloglist" ? (
           post.comments[0] == undefined ? (
-            <div class="media mt-3">
+            <div className="media mt-3">
               <img
-                class="d-flex rounded-circle avatar z-depth-1-half mr-3"
+                className="d-flex rounded-circle avatar z-depth-1-half mr-3"
                 src={
                   auth.currentUser.isAnonymous
                     ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
@@ -36,15 +36,15 @@ const Blog = ({ post, caller }) => {
                 alt="Generic placeholder image"
                 height="100px"
               />
-              <div class="media-body">
-                <h5 class="mt-0 font-weight-bold blue-text">
+              <div className="media-body">
+                <h5 className="mt-0 font-weight-bold blue-text">
                   {auth.currentUser.isAnonymous
                     ? "Guest"
                     : auth.currentUser.displayName}
                 </h5>
-                <div class="form-group basic-textarea rounded-corners">
+                <div className="form-group basic-textarea rounded-corners">
                   <textarea
-                    class="form-control z-depth-1"
+                    className="form-control z-depth-1"
                     id="Textarea"
                     rows="3"
                     placeholder="Write your comment..."
@@ -58,9 +58,9 @@ const Blog = ({ post, caller }) => {
                 Comment={post.comments[post.comments.length - 1]}
                 key={post.comments[post.comments.length - 1]}
               ></Comment>
-              <div class="media mt-3">
+              <div className="media mt-3">
                 <img
-                  class="d-flex rounded-circle avatar z-depth-1-half mr-3"
+                  className="d-flex rounded-circle avatar z-depth-1-half mr-3"
                   src={
                     auth.currentUser.isAnonymous
                       ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
@@ -69,15 +69,15 @@ const Blog = ({ post, caller }) => {
                   alt="Generic placeholder image"
                   height="100px"
                 />
-                <div class="media-body">
-                  <h5 class="mt-0 font-weight-bold blue-text">
+                <div className="media-body">
+                  <h5 className="mt-0 font-weight-bold blue-text">
                     {auth.currentUser.isAnonymous
                       ? "Guest"
                       : auth.currentUser.displayName}
                   </h5>
-                  <div class="form-group basic-textarea rounded-corners">
+                  <div className="form-group basic-textarea rounded-corners">
                     <textarea
-                      class="form-control z-depth-1"
+                      className="form-control z-depth-1"
                       id="Textarea"
                       rows="3"
                       placeholder="Write your comment..."
@@ -95,9 +95,9 @@ const Blog = ({ post, caller }) => {
                 key={comment.commentor + comment.message}
               ></Comment>
             ))}
-            <div class="media mt-3">
+            <div className="media mt-3">
               <img
-                class="d-flex rounded-circle avatar z-depth-1-half mr-3"
+                className="d-flex rounded-circle avatar z-depth-1-half mr-3"
                 src={
                   auth.currentUser.isAnonymous
                     ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
@@ -106,15 +106,15 @@ const Blog = ({ post, caller }) => {
                 alt="Generic placeholder image"
                 height="100px"
               />
-              <div class="media-body">
-                <h5 class="mt-0 font-weight-bold blue-text">
+              <div className="media-body">
+                <h5 className="mt-0 font-weight-bold blue-text">
                   {auth.currentUser.isAnonymous
                     ? "Guest"
                     : auth.currentUser.displayName}
                 </h5>
-                <div class="form-group basic-textarea rounded-corners">
+                <div className="form-group basic-textarea rounded-corners">
                   <textarea
-                    class="form-control z-depth-1"
+                    className="form-control z-depth-1"
                     id="Textarea"
                     rows="3"
                     placeholder="Write your comment..."
