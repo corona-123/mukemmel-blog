@@ -178,6 +178,15 @@ export default function Meta() {
             font-size: 0.85rem;
             line-height: 1.45rem;
           }
+          @keyframes spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+          .spin {
+            animation: spin 4s linear infinite;
+            margin-top: 300px;
+          }
           .layout {
             width: 100%;
             // height: 100%;
@@ -335,6 +344,17 @@ export default function Meta() {
             // text-align: center;
             width: 100%;
             border-radius: 10em;
+          }
+          .comment-dropdown {
+            cursor: pointer;
+            align-self: center;
+          }
+          .comment-dropdown-icon-up {
+            transform: rotate(180deg);
+            transition: all 0.2s ease-out;
+          }
+          .comment-dropdown-icon-down {
+            transition: all 0.2s ease-out;
           }
           .comment-date {
             text-align: right;

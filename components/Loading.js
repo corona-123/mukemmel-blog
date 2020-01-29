@@ -1,11 +1,17 @@
 import Meta from "./Meta";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/fontawesome-free-solid";
 
 const Loading = () => {
   return (
     <div className="container text-center">
       <Meta></Meta>
-      <h1 className="mx-5">Loading ......</h1>
+      <FontAwesomeIcon
+        icon={faSpinner}
+        width="70px"
+        className="spin"
+      ></FontAwesomeIcon>
     </div>
   );
 };

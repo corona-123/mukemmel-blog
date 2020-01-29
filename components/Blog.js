@@ -3,27 +3,31 @@ import ReactMarkdown from "react-markdown";
 import Comment from "./Comment";
 import { auth, firestore, firebase } from "../src/firebase/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaperPlane,
+  faChevronCircleDown
+} from "@fortawesome/free-solid-svg-icons";
 import Router from "next/router";
 import React from "react";
+import Loading from "./Loading";
 
 class Blog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       commentText: "",
-      commentor: "Guest"
+      commentor: "Guest",
+      showOrHide: false,
+      isLoading: true
     };
   }
   componentDidMount() {
-    console.log(this.props.post);
+    this.setState({ isLoading: false });
   }
-  // let commentText = "";
-  // let commentor = "Guest";
   handleSubmitComment = async () => {
     if (auth.currentUser != null && auth.currentUser != undefined) {
       if (!auth.currentUser.isAnonymous)
-        commentor = auth.currentUser.displayName;
+        this.state.commentor = auth.currentUser.displayName;
     }
     let commentsArr = [];
     let getPost = await firestore
@@ -46,16 +50,19 @@ class Blog extends React.Component {
         { merge: true }
       )
       .then(() => {
+        this.setState({
+          commentText: ""
+        });
         alert("Comment sent...");
-        // if (Router.route == "/" || Router.route == "/profile")
-        //   Router.push(`/${post.slug}`);
       })
       .catch(err => {
         console.log(err);
       });
   };
   render() {
-    return (
+    let component = this.state.isLoading ? (
+      <Loading></Loading>
+    ) : (
       <div className="blog">
         <Link href={this.props.post.slug}>
           <img
@@ -105,6 +112,7 @@ class Blog extends React.Component {
                       id="Textarea"
                       rows="3"
                       placeholder="Write your comment..."
+                      value={this.state.commentText}
                       onChange={text => {
                         this.setState({ commentText: text.target.value });
                       }}
@@ -123,10 +131,45 @@ class Blog extends React.Component {
               </div>
             ) : (
               <section>
-                {/* add SHOW MORE icon and implement logic */}
                 {this.props.post.comments.length > 2 ? (
-                  <div>daha fazla</div>
+                  <div className="text-center">
+                    <a
+                      className="comment-dropdown"
+                      onClick={() =>
+                        this.setState({
+                          showOrHide: !this.state.showOrHide
+                        })
+                      }
+                    >
+                      <FontAwesomeIcon
+                        width="21px"
+                        icon={faChevronCircleDown}
+                        className={
+                          !this.state.showOrHide
+                            ? "comment-dropdown-icon-up"
+                            : "comment-dropdown-icon-down" + " " + "mr-2"
+                        }
+                      ></FontAwesomeIcon>
+                      {!this.state.showOrHide
+                        ? "Show more comments!"
+                        : "Hide comments!"}
+                    </a>
+                  </div>
                 ) : null}
+                {this.state.showOrHide
+                  ? this.props.post.comments.map((comment, index) => {
+                      if (
+                        index != this.props.post.comments.length - 2 &&
+                        index != this.props.post.comments.length - 1
+                      )
+                        return (
+                          <Comment
+                            Comment={comment}
+                            key={comment + Date.now() + index}
+                          ></Comment>
+                        );
+                    })
+                  : null}
                 {this.props.post.comments.length > 1 ? (
                   <Comment
                     Comment={
@@ -153,13 +196,6 @@ class Blog extends React.Component {
                     ]
                   }
                 ></Comment>
-                {/* {post.comments.map((comment, index) => {
-                console.log(index);
-                <Comment
-                  Comment={post.comments[post.comments.length - index + 1]}
-                  key={post.comments[post.comments.length - index + 1]}
-                ></Comment>;
-              })} */}
                 <div className="media mt-3">
                   <img
                     className="d-flex rounded-circle avatar z-depth-1-half mr-3"
@@ -183,6 +219,7 @@ class Blog extends React.Component {
                         id="Textarea"
                         rows="3"
                         placeholder="Write your comment..."
+                        value={this.state.commentText}
                         onChange={text => {
                           this.setState({ commentText: text.target.value });
                         }}
@@ -232,6 +269,7 @@ class Blog extends React.Component {
                       id="Textarea"
                       rows="3"
                       placeholder="Write your comment..."
+                      value={this.state.commentText}
                       onChange={text => {
                         this.setState({ commentText: text.target.value });
                       }}
@@ -253,6 +291,7 @@ class Blog extends React.Component {
         </div>
       </div>
     );
+    return component;
   }
 }
 

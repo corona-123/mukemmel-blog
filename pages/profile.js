@@ -13,18 +13,18 @@ class ProfileBlogs extends React.Component {
     this.state = {
       posts: [],
       isLoading: true,
-      sorted: null
+      sorted: null,
+      searchAuthor: "Guest"
     };
   }
   getPosts = async () => {
-    let searchAuthor = "Guest";
     if (auth.currentUser != undefined && auth.currentUser != null) {
       if (!auth.currentUser.isAnonymous)
-        searchAuthor = auth.currentUser.displayName;
+        this.setState({ searchAuthor: auth.currentUser.displayName });
     }
     await firestore
       .collection("posts")
-      .where("author", "==", searchAuthor)
+      .where("author", "==", this.state.searchAuthor)
       .get()
       .then(doc => {
         if (doc != null) {
@@ -108,8 +108,10 @@ class ProfileBlogs extends React.Component {
         <LayoutTop></LayoutTop>
         <div className="content-background container-fluid">
           <div className="content-container container">
-            <h1 className="display-1 mt-5">
-              <u>Your Posts : </u>
+            <h1 className="display-4 mt-5 text-center border">
+              <u>You are signed in as:</u>
+              <br></br>
+              {this.state.searchAuthor}
             </h1>
             <BlogList posts={this.state.posts}></BlogList>
           </div>
