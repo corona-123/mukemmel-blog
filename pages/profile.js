@@ -104,7 +104,7 @@ class ProfileBlogs extends React.Component {
     return this.state.isLoading ? (
       <Loading></Loading>
     ) : (
-      <div className="layout">
+      <section>
         <LayoutTop></LayoutTop>
         <div className="content-background container-fluid">
           <div className="content-container container">
@@ -116,29 +116,9 @@ class ProfileBlogs extends React.Component {
             <BlogList posts={this.state.posts}></BlogList>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }
-
-ProfileBlogs.getInitialProps = async ({ req }) => {
-  // TODO: aşağıdaki satırda bulunan adresi kendi sunucu adresinle değiştirmelisin
-  // const res = await fetch(
-  //   "http://dn-blog-sayfasi-ama-degil.herokuapp.com/api/posts"
-  // );
-  // const json = await res.json();
-
-  // let result = firestore
-  //   .collection("users")
-  //   .limit(10)
-  //   .get()
-  //   .then(snapshot => {
-  //     snapshot.forEach(doc => {
-  //       console.log(doc.id);
-  //     });
-  //   });
-  // console.log(json.posts);
-  return { posts: null };
-};
 
 export default withAuth(ProfileBlogs);

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Nav from "./nav";
+import Nav from "./nav copy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
@@ -62,7 +62,7 @@ export default function Header() {
         <style jsx>{`
           .hero {
             text-align: center;
-            padding: 130px 0 32px 0;
+            padding: 70px 0 32px 0;
             display: flex;
             flex-direction: row;
             justify-content: center;

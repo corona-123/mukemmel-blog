@@ -34,42 +34,29 @@ export default function Meta() {
           * {
             box-sizing: inherit;
           }
-          // #__next {
-          //   height: 100%;
-          // }
           html {
             // height: 100%;
             box-sizing: border-box;
             overflow-y: scroll;
           }
           body {
-            // height: 100%;
-            margin: 0;
+            padding-top: 100px;
+            padding-bottom: 50px;
             font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
               Helvetica, sans-serif;
             background: rgba(250, 250, 250, 1);
-            // font-family: "Work Sans", "Helvetica Neue", Helvetica, sans-serif;
             overflow-x: hidden;
             color: #000;
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background: rgb(238, 174, 202);
-            background: radial-gradient(
-              circle,
-              rgba(238, 174, 202, 1) 0%,
-              rgba(148, 187, 233, 1) 100%
+            background: rgb(255, 255, 255);
+            background: linear-gradient(
+              90deg,
+              rgba(255, 255, 255, 1) 0%,
+              rgba(236, 237, 238, 1) 50%,
+              rgba(255, 255, 255, 1) 100%
             );
-          }
-          a {
-            text-decoration: none;
-            color: #35459e;
-            transition: opacity 0.2s ease;
-          }
-          a:hover {
-            transition: opacity 0.2s ease;
-            opacity: 0.5;
-            text-decoration-color: inherit;
           }
           ul {
             list-style: none;
@@ -143,9 +130,6 @@ export default function Meta() {
           strong {
             font-weight: bold;
           }
-          li {
-            margin-bottom: calc(1.45rem / 2);
-          }
           ol li {
             padding-left: 0;
           }
@@ -187,29 +171,7 @@ export default function Meta() {
             animation: spin 4s linear infinite;
             margin-top: 300px;
           }
-          .layout {
-            width: 100%;
-            // height: 100%;
-            margin: 0 auto;
-            background: rgb(238, 174, 202);
-            background: radial-gradient(
-              circle,
-              rgba(238, 174, 202, 1) 0%,
-              rgba(148, 187, 233, 1) 100%
-            );
-          }
-          .content-background {
-            background: rgba(250, 250, 250, 1);
-            width: 100%;
-            border-radius: 150px 150px 0 0;
-            margin-top: -50px;
-            padding-top: 5px;
-            padding-bottom: 10px;
-          }
           .login-container {
-            height: 100%;
-          }
-          .content-container {
             height: 100%;
           }
           .blog {
@@ -294,11 +256,11 @@ export default function Meta() {
             color: #fff;
             background-color: #59698d !important;
           }
-          .waves-effect {
-            position: relative;
-            overflow: hidden;
-            height: fit-content;
-          }
+          // .waves-effect {
+          //   position: relative;
+          //   overflow: hidden;
+          //   height: fit-content;
+          // }
           .file-field {
             cursor: pointer;
             z-indez: 100;
@@ -375,17 +337,16 @@ export default function Meta() {
            {
             /* //section------------------------------------- */
           }
-          html,
-          body {
-            background-repeat: no-repeat;
-            background: rgb(238, 174, 202);
-            background: radial-gradient(
-              circle,
-              rgba(238, 174, 202, 1) 0%,
-              rgba(148, 187, 233, 1) 100%
-            );
-            // height: 100%;
-          }
+          // html,
+          // body {
+          //   background-repeat: no-repeat;
+          //   background: rgb(238, 174, 202);
+          //   background: radial-gradient(
+          //     circle,
+          //     rgba(238, 174, 202, 1) 0%,
+          //     rgba(148, 187, 233, 1) 100%
+          //   );
+          // }
 
           .container {
             height: 100%;
@@ -398,6 +359,42 @@ export default function Meta() {
             margin-bottom: auto;
             width: 400px;
             background-color: rgba(0, 0, 0, 0.5) !important;
+          }
+          @keyframes appearLeft {
+            0% {
+              margin-left: -1000px;
+            }
+            15% {
+              margin-left: -100px;
+            }
+            40% {
+              margin-left: -110px;
+            }
+            50% {
+              margin-left: -80px;
+            }
+            79% {
+              margin-left: -20px;
+            }
+            80% {
+              margin-left: -100px;
+            }
+            100% {
+              margin-left: -1000px;
+            }
+          }
+          .dorukhan img {
+            position: absolute;
+            width: 180px;
+            margin-top: 19%;
+            padding: 5px;
+            margin-left: -1000px;
+            transform: rotate(90deg);
+            animation-name: appearLeft;
+            animation-duration: 6s;
+            animation-delay: 12s;
+            animaiton-timing-function: linear;
+            animation-iteration-count: infinite;
           }
 
           .login-container {
@@ -462,7 +459,7 @@ export default function Meta() {
           }
 
           .mini-profile {
-            width: 75px;
+            width: 80px;
             background: #fff;
             box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
               0 9px 26px 0 rgba(0, 0, 0, 0.19);
@@ -473,11 +470,11 @@ export default function Meta() {
             color: #464646;
             font-size: 15px;
             align-items: center;
-            border: 2px solid #464646;
-            height: 75px;
+            // border: 2px solid #464646;
+            height: 80px;
           }
           .mini-profile-container {
-            z-index: 1000;
+            z-index: 1200;
             position: fixed;
             top: 0;
             right: 0;
@@ -566,11 +563,6 @@ export default function Meta() {
           }
 
           @media (max-width: 992px) {
-            // .content-container {
-            //   max-width: 750px;
-            //   margin: 0 auto;
-            //   border: 4px;
-            // }
             h1 {
               font-size: 2rem;
               letter-spacing: -1px;

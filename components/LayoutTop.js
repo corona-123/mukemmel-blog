@@ -1,13 +1,14 @@
-import Header from "./Header";
+import Nav from "./nav copy";
 import Meta from "./Meta";
-import Profile from "../components/Profile";
+import Profile from "../components/Profile copy";
+import Header from "./Header";
 
-export default function LayoutTop() {
+export default function LayoutTop({ parent }) {
   return (
-    <section className="layout">
+    <section>
       <Meta></Meta>
-      <Header></Header>
-      <section className="mt-4 mini-profile-container">
+      {parent == "about" ? <Header></Header> : <Nav></Nav>}
+      <section className="mt-1 mini-profile-container">
         <Profile></Profile>
       </section>
     </section>

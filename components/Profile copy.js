@@ -37,16 +37,7 @@ const Profile = ({ anotherUser }) => {
     <a
       className="back-container"
       onClick={() => {
-        auth
-          .signOut()
-          .then(function() {
-            Router.push("/Login");
-            alert("Logout successful");
-          })
-          .catch(err => {
-            alert("OOps something went wrong check your console");
-            console.log(err);
-          });
+        Router.push("/profile");
       }}
     >
       {image}
