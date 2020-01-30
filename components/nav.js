@@ -47,7 +47,7 @@ const Nav = () => (
           </a>
         </li>
       </Link>
-      <Link href="/profile">
+      <Link href={`/profile`}>
         <li className="nav-item">
           <a className="nav-link h4 text-center" href="/profile">
             <FontAwesomeIcon

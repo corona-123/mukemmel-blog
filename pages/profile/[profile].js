@@ -1,14 +1,13 @@
 import React from "react";
-import LayoutTop from "../components/LayoutTop";
-import { firebase, auth, firestore } from "../src/firebase/index";
-import withAuth from "../src/helpers/withAuth";
+import LayoutTop from "../../components/LayoutTop";
+import { firebase, auth, firestore } from "../../src/firebase/index";
+import withAuth from "../../src/helpers/withAuth";
 import "firebase/storage";
 import "firebase/database";
-import Loading from "../components/Loading";
-import Profile from "../components/Profile";
-import BlogListMini from "../components/BlogListMini";
-
-class ProfileBlogs extends React.Component {
+import Loading from "../../components/Loading";
+import Profile from "../../components/Profile";
+import BlogListMini from "../../components/BlogListMini";
+class DynamicProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,15 +38,10 @@ class ProfileBlogs extends React.Component {
   };
 
   getPosts = async () => {
-    if (this.props.lookUp != undefined) {
-      await this.setState({ searchAuthor: this.props.lookUp });
-    } else {
-      if (auth.currentUser != undefined && auth.currentUser != null) {
-        if (!auth.currentUser.isAnonymous) {
-          await this.setState({ searchAuthor: auth.currentUser.displayName });
-        }
-      }
-    }
+    await this.setState({
+      searchAuthor: this.props.profileName
+    });
+
     await firestore
       .collection("posts")
       .where("author", "==", this.state.searchAuthor)
@@ -121,12 +115,11 @@ class ProfileBlogs extends React.Component {
       sorted: true
     });
   }
-  componentDidMount() {
-    console.log(this.props.queryId);
+  componentDidMount = async () => {
     this.getPosts();
     this.getCommentsCount();
     this.setState({ isLoading: false });
-  }
+  };
   render() {
     return this.state.isLoading ? (
       <Loading></Loading>
@@ -166,18 +159,18 @@ class ProfileBlogs extends React.Component {
           <br></br>
           <BlogListMini posts={this.state.posts}></BlogListMini>
           {/* <div className="content-container container">
-            <br></br>
-
-            <BlogList posts={this.state.posts}></BlogList>
-          </div> */}
+              <br></br>
+  
+              <BlogList posts={this.state.posts}></BlogList>
+            </div> */}
         </div>
       </section>
     );
   }
 }
 
-ProfileBlogs.getInitialProps = async ({ req, query }) => {
-  return { lookUp: query.anotherUser, queryId: query };
+DynamicProfile.getInitialProps = async ({ req, query }) => {
+  return { profileName: query.profile };
 };
 
-export default withAuth(ProfileBlogs);
+export default withAuth(DynamicProfile);

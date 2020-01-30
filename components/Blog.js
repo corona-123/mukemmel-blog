@@ -150,11 +150,12 @@ class Blog extends React.Component {
           <div className="blog-author-container">
             <span>Posted by : </span>
             <Link
-              href={{
-                pathname: "/profile",
-                query: { anotherUser: this.props.post.author }
-              }}
-              as={`/profile/${this.props.post.author}`}
+              href={
+                auth.currentUser.displayName == this.props.post.author
+                  ? "/profile"
+                  : `/profile/${[this.props.post.author]}`
+              }
+              // as={`/profile/${this.props.post.author}`}
             >
               <a className="text-center" href="/profile">
                 <span className="blog-author">{this.props.post.author}</span>
