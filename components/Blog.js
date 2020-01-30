@@ -17,7 +17,8 @@ class Blog extends React.Component {
     this.state = {
       commentText: "",
       commentor: "Guest",
-      showOrHide: false,
+      showOrHideComment: false,
+      showOrHideDetails: false,
       isLoading: true
     };
   }
@@ -60,9 +61,53 @@ class Blog extends React.Component {
       });
   };
   render() {
+    let enterCommentComponent = (
+      <div className="media mt-3">
+        <img
+          className="d-flex rounded-circle avatar z-depth-1-half mr-3"
+          src={
+            auth.currentUser.isAnonymous
+              ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
+              : auth.currentUser.photoURL
+          }
+          alt="Generic placeholder image"
+          height="100px"
+        />
+        <div className="media-body">
+          <h5 className="mt-0 font-weight-bold blue-text">
+            {auth.currentUser.isAnonymous
+              ? "Guest"
+              : auth.currentUser.displayName}
+          </h5>
+          <div className="form-group basic-textarea rounded-corners row ml-0 mr-0">
+            <textarea
+              className="form-control z-depth-1 col-sm"
+              id="Textarea"
+              rows="3"
+              placeholder="Write your comment..."
+              value={this.state.commentText}
+              onChange={text => {
+                this.setState({ commentText: text.target.value });
+              }}
+            ></textarea>
+            <a
+              className="btn-floating btn-primary rounded-circle send-comment-button"
+              onClick={this.handleSubmitComment}
+            >
+              <FontAwesomeIcon
+                width="21px"
+                icon={faPaperPlane}
+              ></FontAwesomeIcon>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
     let component = this.state.isLoading ? (
+      //Loading
       <Loading></Loading>
     ) : (
+      //Loaded
       <div className="blog">
         <Link href={this.props.post.slug}>
           <img
@@ -77,67 +122,64 @@ class Blog extends React.Component {
           </Link>
         </h2>
         <div className="blog-text">
-          <ReactMarkdown className="span" source={this.props.post.details} />
+          <ReactMarkdown
+            className={
+              this.props.caller != "postId" && !this.state.showOrHideDetails
+                ? "span"
+                : ""
+            }
+            source={this.props.post.details}
+          />
+          {this.props.caller != "postId" ? (
+            <a
+              className="read-more"
+              onClick={() => {
+                console.log("asdasd");
+                this.setState({
+                  showOrHideDetails: !this.state.showOrHideDetails
+                });
+              }}
+            >
+              <strong>
+                {this.state.showOrHideDetails ? "Hide Details!" : "Read More!"}
+              </strong>
+            </a>
+          ) : null}
         </div>
         <div className="blog-date-author justify-content-between">
           <div className="blog-author-container">
             <span>Posted by : </span>
-            <span className="blog-author">{this.props.post.author}</span>
+            <Link
+              href={{
+                pathname: "/profile",
+                query: { anotherUser: this.props.post.author }
+              }}
+              as={`/profile/${this.props.post.author}`}
+            >
+              <a className="text-center" href="/profile">
+                <span className="blog-author">{this.props.post.author}</span>
+              </a>
+            </Link>
           </div>
           <span>{this.props.post.date}</span>
         </div>
         <div className="blog-bottom">
           {this.props.caller == "bloglist" ? (
+            //if caller bloglist
             this.props.post.comments[0] == undefined ? (
-              <div className="media mt-3">
-                <img
-                  className="d-flex rounded-circle avatar z-depth-1-half mr-3"
-                  src={
-                    auth.currentUser.isAnonymous
-                      ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
-                      : auth.currentUser.photoURL
-                  }
-                  alt="Generic placeholder image"
-                  height="100px"
-                />
-                <div className="media-body">
-                  <h5 className="mt-0 font-weight-bold blue-text">
-                    {auth.currentUser.isAnonymous
-                      ? "Guest"
-                      : auth.currentUser.displayName}
-                  </h5>
-                  <div className="form-group basic-textarea rounded-corners row ml-0 mr-0">
-                    <textarea
-                      className="form-control z-depth-1 col-sm"
-                      id="Textarea"
-                      rows="3"
-                      placeholder="Write your comment..."
-                      value={this.state.commentText}
-                      onChange={text => {
-                        this.setState({ commentText: text.target.value });
-                      }}
-                    ></textarea>
-                    <a
-                      className="btn-floating btn-primary rounded-circle send-comment-button"
-                      onClick={this.handleSubmitComment}
-                    >
-                      <FontAwesomeIcon
-                        width="21px"
-                        icon={faPaperPlane}
-                      ></FontAwesomeIcon>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              //if caller bloglist and there are no comments
+              enterCommentComponent
             ) : (
+              //if caller bloglist and there are comments
               <section>
                 {this.props.post.comments.length > 2 ? (
+                  //if caller bloglist and there are comments more than 2 SHOW HIDE
                   <div className="text-center">
                     <a
                       className="comment-dropdown"
                       onClick={() =>
                         this.setState({
-                          showOrHide: !this.state.showOrHide
+                          showOrHideComment: !this.state.showOrHideComment
                         })
                       }
                     >
@@ -145,18 +187,19 @@ class Blog extends React.Component {
                         width="21px"
                         icon={faChevronCircleDown}
                         className={
-                          !this.state.showOrHide
+                          !this.state.showOrHideComment
                             ? "comment-dropdown-icon-up"
                             : "comment-dropdown-icon-down" + " " + "mr-2"
                         }
                       ></FontAwesomeIcon>
-                      {!this.state.showOrHide
+                      {!this.state.showOrHideComment
                         ? "Show more comments!"
                         : "Hide comments!"}
                     </a>
                   </div>
-                ) : null}
-                {this.state.showOrHide
+                ) : //if caller bloglist and there are comments !not more than 2 SHOW HIDE
+                null}
+                {this.state.showOrHideComment
                   ? this.props.post.comments.map((comment, index) => {
                       if (
                         index != this.props.post.comments.length - 2 &&
@@ -196,49 +239,11 @@ class Blog extends React.Component {
                     ]
                   }
                 ></Comment>
-                <div className="media mt-3">
-                  <img
-                    className="d-flex rounded-circle avatar z-depth-1-half mr-3"
-                    src={
-                      auth.currentUser.isAnonymous
-                        ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
-                        : auth.currentUser.photoURL
-                    }
-                    alt="Generic placeholder image"
-                    height="100px"
-                  />
-                  <div className="media-body">
-                    <h5 className="mt-0 font-weight-bold blue-text">
-                      {auth.currentUser.isAnonymous
-                        ? "Guest"
-                        : auth.currentUser.displayName}
-                    </h5>
-                    <div className="form-group basic-textarea rounded-corners row ml-0 mr-0">
-                      <textarea
-                        className="form-control z-depth-1 col-sm"
-                        id="Textarea"
-                        rows="3"
-                        placeholder="Write your comment..."
-                        value={this.state.commentText}
-                        onChange={text => {
-                          this.setState({ commentText: text.target.value });
-                        }}
-                      ></textarea>
-                      <a
-                        className="btn-floating btn-primary rounded-circle send-comment-button"
-                        onClick={this.handleSubmitComment}
-                      >
-                        <FontAwesomeIcon
-                          width="21px"
-                          icon={faPaperPlane}
-                        ></FontAwesomeIcon>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                {enterCommentComponent}
               </section>
             )
           ) : (
+            //if caller not bloglist
             <section>
               {this.props.post.comments.map((comment, index) => (
                 <Comment
@@ -246,46 +251,7 @@ class Blog extends React.Component {
                   key={comment.commentor + "_" + index}
                 ></Comment>
               ))}
-              <div className="media mt-3">
-                <img
-                  className="d-flex rounded-circle avatar z-depth-1-half mr-3"
-                  src={
-                    auth.currentUser.isAnonymous
-                      ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
-                      : auth.currentUser.photoURL
-                  }
-                  alt="Generic placeholder image"
-                  height="100px"
-                />
-                <div className="media-body">
-                  <h5 className="mt-0 font-weight-bold blue-text">
-                    {auth.currentUser.isAnonymous
-                      ? "Guest"
-                      : auth.currentUser.displayName}
-                  </h5>
-                  <div className="form-group basic-textarea rounded-corners row ml-0 mr-0">
-                    <textarea
-                      className="form-control z-depth-1 col-sm"
-                      id="Textarea"
-                      rows="3"
-                      placeholder="Write your comment..."
-                      value={this.state.commentText}
-                      onChange={text => {
-                        this.setState({ commentText: text.target.value });
-                      }}
-                    ></textarea>
-                    <a
-                      className="btn-floating btn-primary rounded-circle send-comment-button"
-                      onClick={this.handleSubmitComment}
-                    >
-                      <FontAwesomeIcon
-                        width="21px"
-                        icon={faPaperPlane}
-                      ></FontAwesomeIcon>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              {enterCommentComponent}
             </section>
           )}
         </div>

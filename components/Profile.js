@@ -4,10 +4,12 @@ import { faUser } from "@fortawesome/fontawesome-free-solid";
 import { auth } from "../src/firebase/index";
 import Router from "next/router";
 
-const Profile = ({ anotherUser }) => {
-  let user = anotherUser;
+const Profile = ({ User }) => {
+  let user = User;
   let display;
   let image;
+
+  // if (User != null) {
   if (auth) {
     if (auth.currentUser.isAnonymous) {
       display = "Guest";
@@ -23,7 +25,13 @@ const Profile = ({ anotherUser }) => {
       let secondLetter = user.displayName.split(" ")[1];
       secondLetter = secondLetter.slice(0, 1);
       display = firstLetter + secondLetter;
-      image = (
+      image = User ? (
+        <img
+          src={user.photoURL}
+          className="container float-left mr-4 profile-information"
+          title={display}
+        ></img>
+      ) : (
         <img
           src={user.photoURL}
           className="container float-right mr-4 mini-profile"
@@ -32,8 +40,11 @@ const Profile = ({ anotherUser }) => {
       );
     }
   }
+  // } else {
+  //   user = User;
+  // }
 
-  return anotherUser != null ? (
+  return User != null ? (
     image
   ) : (
     <a

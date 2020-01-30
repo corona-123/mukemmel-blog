@@ -54,12 +54,12 @@ export default function Meta() {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background: rgb(255, 255, 255);
-            background: linear-gradient(
-              90deg,
-              rgba(255, 255, 255, 1) 0%,
-              rgba(236, 237, 238, 1) 50%,
-              rgba(255, 255, 255, 1) 100%
-            );
+            // background: linear-gradient(
+            //   90deg,
+            //   rgba(255, 255, 255, 1) 0%,
+            //   rgba(236, 237, 238, 1) 50%,
+            //   rgba(255, 255, 255, 1) 100%
+            // );
           }
           ul {
             list-style: none;
@@ -197,10 +197,79 @@ export default function Meta() {
             font-weight: bold;
           }
           .span p {
-            max-height: 130px;
-            white-space: nowrap;
+            // max-height: 130px;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+          }
+          .span {
+            // max-height: 130px;
+            // white-space: nowrap;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
             overflow: hidden;
-            text-overflow: ellipsis;
+            height: 4.5em;
+            display: block;
+            position: relative;
+            width: 100%;
+          }
+          .span :after {
+            content: " ";
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 1em;
+            bottom: 0px;
+            left: 0px;
+            background: rgb(255, 255, 255);
+          }
+          .span:before {
+            content: "...";
+            text-align: right;
+            position: absolute;
+            display: block;
+            width: 2em;
+            height: 1em;
+            bottom: 1em;
+            right: 20px;
+            // background: -moz-linear-gradient(
+            //   left,
+            //   rgba(255, 255, 255, 0) 0%,
+            //   rgba(255, 255, 255, 1) 38%,
+            //   rgba(255, 255, 255, 1) 99%
+            // );
+            // background: -webkit-gradient(
+            //   linear,
+            //   left top,
+            //   right top,
+            //   color-stop(0%, rgba(255, 255, 255, 0)),
+            //   color-stop(38%, rgba(255, 255, 255 1)),
+            //   color-stop(99%, rgba(255, 255, 255, 1))
+            // );
+            // background: -webkit-linear-gradient(
+            //   left,
+            //   rgba(255, 255, 255, 0) 0%,
+            //   rgba(255, 255, 255, 1) 38%,
+            //   rgba(255, 255, 255, 1) 99%
+            // );
+            // background: -o-linear-gradient(
+            //   left,
+            //   rgba(255, 255, 255, 0) 0%,
+            //   rgba(255, 255, 255, 1) 38%,
+            //   rgba(255, 255, 255, 1) 99%
+            // );
+            // background: -ms-linear-gradient(
+            //   left,
+            //   rgba(255, 255, 255, 0) 0%,
+            //   rgba(255, 255, 255, 1) 38%,
+            //   rgba(255, 255, 255, 1) 99%
+            // );
+            // background: linear-gradient(
+            //   to right,
+            //   rgba(255, 255, 255, 0) 0%,
+            //   rgba(255, 255, 255, 1) 38%,
+            //   rgba(255, 255, 255, 1) 99%
+            // );
           }
           .blog-image {
             max-height: 300px;
@@ -315,6 +384,10 @@ export default function Meta() {
             // text-align: center;
             width: 100%;
             border-radius: 10em;
+          }
+          .read-more {
+            cursor: pointer;
+            color: #007bff !important;
           }
           .comment-dropdown {
             cursor: pointer;
@@ -466,6 +539,14 @@ export default function Meta() {
             text-decoration: none;
             color: #fff;
           }
+          .profile-background {
+            background-image: url(https://i.redd.it/b3esnz5ra34y.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            padding: 2.5em;
+            border-radius: 1em;
+          }
 
           .mini-profile {
             width: 80px;
@@ -487,6 +568,21 @@ export default function Meta() {
             position: fixed;
             top: 0;
             right: 0;
+          }
+          .placeholder-mini-profile {
+            width: 80px;
+          }
+          .profile-information {
+            width: 150px;
+            background: #fff;
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            color: #464646;
+            font-size: 15px;
+            align-items: center;
+            height: 150px;
           }
 
            {

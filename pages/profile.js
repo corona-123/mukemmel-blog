@@ -15,13 +15,38 @@ class ProfileBlogs extends React.Component {
       posts: [],
       isLoading: true,
       sorted: null,
-      searchAuthor: "Guest"
+      searchAuthor: "Guest",
+      commentCount: 0
     };
   }
+
+  getCommentsCount = async () => {
+    let count = this.state.commentCount;
+    await firestore
+      .collection("posts")
+      .get()
+      .then(doc => {
+        doc.forEach(post => {
+          post.data().comments.forEach(comment => {
+            if (comment.commentor == this.state.searchAuthor) count++;
+          });
+        });
+      })
+      .catch(err => console.log(err))
+      .then(() => {
+        this.setState({ commentCount: count });
+      });
+  };
+
   getPosts = async () => {
-    if (auth.currentUser != undefined && auth.currentUser != null) {
-      if (!auth.currentUser.isAnonymous)
-        this.setState({ searchAuthor: auth.currentUser.displayName });
+    if (this.props.lookUp != undefined) {
+      await this.setState({ searchAuthor: this.props.lookUp });
+    } else {
+      if (auth.currentUser != undefined && auth.currentUser != null) {
+        if (!auth.currentUser.isAnonymous) {
+          await this.setState({ searchAuthor: auth.currentUser.displayName });
+        }
+      }
     }
     await firestore
       .collection("posts")
@@ -98,6 +123,7 @@ class ProfileBlogs extends React.Component {
   }
   componentDidMount() {
     this.getPosts();
+    this.getCommentsCount();
     this.setState({ isLoading: false });
   }
   render() {
@@ -106,13 +132,30 @@ class ProfileBlogs extends React.Component {
     ) : (
       <section>
         <LayoutTop></LayoutTop>
+        <div className=" mt-5 mr-1 ml-1 border profile-background">
+          <Profile User={this.state.searchAuthor}></Profile>
+          <span className="display-4">{this.state.searchAuthor}</span>
+          <br></br>
+          <div className="mt-4 row">
+            <h5 className="mr-1">Posts: </h5>
+            <h5 className=" mr-auto">
+              {" "}
+              <strong>{" " + this.state.posts.length}</strong>
+            </h5>
+            <h5 className="mr-1">Comments: </h5>
+            <h5 className=" mr-auto">
+              <strong>{" " + this.state.commentCount}</strong>
+            </h5>
+            <h5 className="mr-1">Last Posted On: </h5>
+            <h5 className=" mr-auto">
+              <strong>
+                {this.state.posts.length != 0 ? this.state.posts[0].date : "0"}
+              </strong>
+            </h5>
+          </div>
+        </div>
         <div className="content-background container-fluid">
           <div className="content-container container">
-            <h1 className="display-4 mt-5 text-center border">
-              <Profile></Profile>
-              <br></br>
-              {this.state.searchAuthor}
-            </h1>
             <BlogList posts={this.state.posts}></BlogList>
           </div>
         </div>
@@ -120,5 +163,9 @@ class ProfileBlogs extends React.Component {
     );
   }
 }
+
+ProfileBlogs.getInitialProps = async ({ req, query }) => {
+  return { lookUp: query.anotherUser };
+};
 
 export default withAuth(ProfileBlogs);

@@ -1,5 +1,4 @@
 import React from "react";
-import fetch from "isomorphic-unfetch";
 import LayoutTop from "../components/LayoutTop";
 import Blog from "../components/Blog";
 import withAuth from "../src/helpers/withAuth";
@@ -82,7 +81,7 @@ class BlogPost extends React.Component {
         <LayoutTop></LayoutTop>
         <div className="content-background container-fluid">
           <div className="content-container container">
-            <Blog post={this.state}></Blog>
+            <Blog post={this.state} caller={"postId"}></Blog>
           </div>
         </div>
       </div>
