@@ -121,14 +121,19 @@ class DynamicProfile extends React.Component {
     this.setState({ isLoading: false });
   };
   render() {
-    return this.state.isLoading ? (
+    return this.state.isLoading ||
+      auth.currentUser == undefined ||
+      auth.currentUser == null ? (
       <Loading></Loading>
     ) : (
       <section>
         <LayoutTop></LayoutTop>
         <div className=" mt-5 mr-1 ml-1 border profile-background">
           <div className="container">
-            <Profile User={this.state.searchAuthor}></Profile>
+            <Profile
+              User={this.state.searchAuthor}
+              otherProfile={true}
+            ></Profile>
             <span className="display-4 white-background border">
               {this.state.searchAuthor}
             </span>
@@ -173,4 +178,4 @@ DynamicProfile.getInitialProps = async ({ req, query }) => {
   return { profileName: query.profile };
 };
 
-export default withAuth(DynamicProfile);
+export default DynamicProfile;

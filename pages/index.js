@@ -1,6 +1,6 @@
 import React from "react";
 import LayoutTop from "../components/LayoutTop";
-import { firebase, firestore } from "../src/firebase/index";
+import { firebase, auth, firestore } from "../src/firebase/index";
 import withAuth from "../src/helpers/withAuth";
 import "firebase/storage";
 import BlogList from "../components/BlogList";
@@ -118,7 +118,9 @@ class Home extends React.Component {
     this.setState({ isLoading: false });
   }
   render() {
-    return this.state.isLoading ? (
+    return this.state.isLoading ||
+      auth.currentUser == null ||
+      auth.currentUser == undefined ? (
       <Loading></Loading>
     ) : (
       <div className="layout">
@@ -131,4 +133,4 @@ class Home extends React.Component {
   }
 }
 
-export default withAuth(Home);
+export default Home;

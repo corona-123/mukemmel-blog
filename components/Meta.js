@@ -235,6 +235,7 @@ export default function Meta() {
             font-size: 0.85rem;
             line-height: 1.45rem;
           }
+
           @keyframes spin {
             to {
               transform: rotate(360deg);
@@ -243,6 +244,11 @@ export default function Meta() {
           .spin {
             animation: spin 4s linear infinite;
             margin-top: 300px;
+          }
+          .isDisabled {
+            cursor: not-allowed !important;
+            pointer-events: none;
+            opacity: 0.5;
           }
           .login-container {
             height: 100%;
@@ -715,6 +721,10 @@ export default function Meta() {
             line-height: 1.5;
             color: #464646;
           }
+          .nav-item a {
+            color: rgba(255, 255, 255, 0.88) !important;
+            width: 150px;
+          }
 
           @media (min-width: 1280px) {
             h1 {
@@ -743,6 +753,24 @@ export default function Meta() {
           }
 
           @media (max-width: 992px) {
+            .navbar-expand-lg {
+              flex-flow: row nowrap;
+            }
+            .navbar-nav {
+              flex-flow: row nowrap;
+              justify-content: center;
+            }
+            .nav-item .nav-link span {
+              display: none;
+            }
+            .nav-item a {
+              color: rgba(255, 255, 255, 0.88) !important;
+              width: 80px !important;
+            }
+
+            // .nav-item .nav-link *:first-child {
+            //   width: 50px;
+            // }
             h1 {
               font-size: 2rem;
               letter-spacing: -1px;

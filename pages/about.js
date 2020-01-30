@@ -20,11 +20,18 @@ class About extends React.Component {
         </h5>
 
         <h5 className="container text-center font-weight-bold">
-          İzmir Ekonomi Üniversitesi Yazılım Mühendisliği bölümü mezunuyum.
-          <br></br>Şu an "Yazılım Mühendisi" olarak Broadangle'da 2 senedir
-          çalışmaktayım.
-          <br></br>İzmir'de yaşıyorum, 22 yaşındayım, tipimi de görmüş
-          olduğunuzu varsayıyorum, söyleyecek bir şey kalmadığını düşünüyorum.
+          Giriş yapmış olan kullanıcılar blog/post yaratabilir, birbirleriyle
+          iletişim halinde olabilirler.
+          <br></br>Yorum yapma, beğeni, görüntülenme sayısı tarzında sosyal
+          medya fonksiyonları içerir.
+          <br></br>Herkesin kendine özel profili bulunur(Google hesabı üzerinden
+          veriler çekilir).<br></br> Özel profilde kendi yarattıkları
+          post/blogları görebilirler.
+        </h5>
+        <h5 className="container text-center font-weight-bold">
+          Kendimden bahsediyim... <br></br>İzmir'de yaşıyorum, 22 yaşındayım,
+          tipimi de görmüş olduğunuzu varsayıyorum, söyleyecek bir şey
+          kalmadığını düşünüyorum.
         </h5>
         <h5 className="container text-center font-weight-bold">
           Front-end sevmediğim umarım belli olmuyordur...
@@ -40,4 +47,4 @@ class About extends React.Component {
   }
 }
 
-export default withAuth(About);
+export default About;

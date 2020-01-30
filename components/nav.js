@@ -13,16 +13,18 @@ import { auth } from "../src/firebase";
 
 const Nav = () => (
   <nav className="navbar navbar-expand-lg navbar-dark fixed-top justify-content-between">
-    <a className="navbar-brand bumblr " href="/">
-      Bumblr
-    </a>
+    <Link href="/">
+      <a className="navbar-brand bumblr " href="/">
+        Bumblr
+      </a>
+    </Link>
     <ul className="navbar-nav ">
       <Link href="/">
         <li className="nav-item">
           <a className="nav-link text-center h4" href="#">
             <FontAwesomeIcon icon={faHome} width="1.5rem"></FontAwesomeIcon>
             <br></br>
-            Home
+            <span>Home</span>
           </a>
         </li>
       </Link>
@@ -31,7 +33,7 @@ const Nav = () => (
           <a className="nav-link h4 text-center" href="/createBlog">
             <FontAwesomeIcon icon={faPlus} width="1.5rem"></FontAwesomeIcon>
             <br></br>
-            Create Blog
+            <span>Create Blog</span>
           </a>
         </li>
       </Link>
@@ -43,7 +45,7 @@ const Nav = () => (
               width="1.5rem"
             ></FontAwesomeIcon>
             <br></br>
-            About Me
+            <span>About Me</span>
           </a>
         </li>
       </Link>
@@ -55,7 +57,7 @@ const Nav = () => (
               width="1.5rem"
             ></FontAwesomeIcon>
             <br></br>
-            Your Profile
+            <span>Your Profile</span>
           </a>
         </li>
       </Link>
@@ -72,11 +74,23 @@ const Nav = () => (
           }
         >
           <FontAwesomeIcon
-            icon={auth.currentUser.isAnonymous ? faSignInAlt : faSignOutAlt}
+            icon={
+              auth.currentUser != null && auth.currentUser != undefined
+                ? auth.currentUser.isAnonymous
+                  ? faSignInAlt
+                  : faSignOutAlt
+                : null
+            }
             width="1.5rem"
           ></FontAwesomeIcon>
           <br></br>
-          {auth.currentUser.isAnonymous ? "Sign in" : "Sign out"}
+          <span>
+            {auth.currentUser != null && auth.currentUser != undefined
+              ? auth.currentUser.isAnonymous
+                ? "Sign in"
+                : "Sign out"
+              : null}
+          </span>
         </a>
       </li>
       <li className="nav-item placeholder-mini-profile"></li>
@@ -90,10 +104,10 @@ const Nav = () => (
       .bumblr {
         font-size: 1.8rem !important;
       }
-      li a {
-        color: rgba(255, 255, 255, 0.88) !important;
-        width: 150px;
-      }
+      // li a {
+      //   color: rgba(255, 255, 255, 0.88) !important;
+      //   width: 150px;
+      // }
       li a:hover {
         color: rgba(50, 55, 55, 1) !important;
         transition: all 0.3s ease;

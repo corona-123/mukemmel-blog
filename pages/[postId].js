@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 // import Blog from "../components/Blog";
 import Comment from "../components/Comment";
-import withAuth from "../src/helpers/withAuth";
+import Loading from "../components/Loading";
 import "firebase/database";
 import "firebase";
 import "firebase/storage";
@@ -28,8 +28,11 @@ class BlogPost extends React.Component {
       slug: "",
       hero_image: null,
       details: "",
+      likes: [],
+      views: 0,
       commentText: "",
-      commentor: "Guest"
+      commentor: "Guest",
+      liked: false
     };
   }
 
@@ -49,7 +52,16 @@ class BlogPost extends React.Component {
           ).toDateString("dd/mm/yyyy"),
           comments: snapshot.data().comments,
           slug: snapshot.id,
-          details: snapshot.data().details
+          details: snapshot.data().details,
+          likes: snapshot.data().likes,
+          views: snapshot.data().views,
+          liked: snapshot
+            .data()
+            .likes.includes(
+              !auth.currentUser.isAnonymous
+                ? auth.currentUser.displayName
+                : "nope"
+            )
         });
       })
       .catch(err => console.log(err))
@@ -74,16 +86,30 @@ class BlogPost extends React.Component {
       .catch(err => {
         console.log(err);
       })
-      .then(() => {
-        firestore
+      .then(async () => {
+        await firestore
+          .collection("posts")
+          .doc(this.props.postId)
+          .set(
+            {
+              views: this.state.views + 1
+            },
+            { merge: true }
+          );
+      })
+      .then(async () => {
+        await firestore
           .collection("posts")
           .doc(this.props.postId)
           .onSnapshot(doc => {
             this.setState({
-              comments: doc.data().comments
+              comments: doc.data().comments,
+              likes: doc.data().likes,
+              views: doc.data().views
             });
           });
-      });
+      })
+      .catch(err => console.log());
   };
   componentDidUpdate() {}
   handleSubmitComment = async () => {
@@ -121,9 +147,39 @@ class BlogPost extends React.Component {
         console.log(err);
       });
   };
+  handleLike = async () => {
+    this.setState({
+      liked: !this.state.liked
+    });
+    let likesArr = [];
+    let getPost = await firestore
+      .collection("posts")
+      .doc(this.state.slug)
+      .get();
+    likesArr = getPost.data().likes;
+    if (likesArr.includes(auth.currentUser.displayName)) {
+      let index = likesArr.indexOf(auth.currentUser.displayName);
+      likesArr.splice(index, 1);
+    } else {
+      likesArr.push(auth.currentUser.displayName);
+    }
+    await firestore
+      .collection("posts")
+      .doc(this.state.slug)
+      .set(
+        {
+          likes: likesArr
+        },
+        { merge: true }
+      )
+      .then(() => {})
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
-    return (
+    return auth.currentUser != undefined && auth.currentUser != null ? (
       <div className="layout">
         <LayoutTop></LayoutTop>
         <div
@@ -139,9 +195,11 @@ class BlogPost extends React.Component {
               <span>Posted by : </span>
               <Link
                 href={
-                  auth.currentUser.displayName == this.state.author
-                    ? "/profile"
-                    : `/profile/${[this.state.author]}`
+                  auth.currentUser != null && auth.currentUser != undefined
+                    ? auth.currentUser.displayName == this.state.author
+                      ? "/profile"
+                      : `/profile/${[this.state.author]}`
+                    : null
                 }
               >
                 <a className="text-center" href="/profile">
@@ -154,13 +212,22 @@ class BlogPost extends React.Component {
           </section>
           <div className="container social-container justify-content-end row mx-0 px-5">
             <div className="right-social row float-right justify-content-around">
-              <a className="h4">
-                0{" "}
+              <a
+                className={`h4${
+                  auth.currentUser.isAnonymous ? " isDisabled" : ""
+                }`}
+                style={{ color: this.state.liked ? "#742f77" : "#aaa" }}
+                onClick={this.handleLike}
+              >
+                {this.state.likes != undefined
+                  ? this.state.likes.length
+                  : 0 + " "}
                 <FontAwesomeIcon icon={faHeart} width="35px"></FontAwesomeIcon>
               </a>
-              <a className="h4">
-                0 <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
-              </a>
+              <div className="h4">
+                {this.state.views + " "}
+                <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
+              </div>
               <a>
                 <FontAwesomeIcon
                   icon={faShareAlt}
@@ -169,7 +236,7 @@ class BlogPost extends React.Component {
               </a>
             </div>
           </div>
-          <div className="blog-bottom">
+          <div className="mt-5 blog-bottom">
             {this.state.comments.map((comment, index) => (
               <Comment
                 Comment={comment}
@@ -180,32 +247,42 @@ class BlogPost extends React.Component {
               <img
                 className="d-flex rounded-circle avatar z-depth-1-half mr-3"
                 src={
-                  auth.currentUser.isAnonymous
-                    ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
-                    : auth.currentUser.photoURL
+                  auth.currentUser != null && auth.currentUser != undefined
+                    ? auth.currentUser.isAnonymous
+                      ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
+                      : auth.currentUser.photoURL
+                    : null
                 }
                 alt="Generic placeholder image"
                 height="100px"
               />
               <div className="media-body">
                 <h5 className="mt-0 font-weight-bold blue-text">
-                  {auth.currentUser.isAnonymous
-                    ? "Guest"
-                    : auth.currentUser.displayName}
+                  {auth.currentUser != null && auth.currentUser != undefined
+                    ? auth.currentUser.isAnonymous
+                      ? "Guest"
+                      : auth.currentUser.displayName
+                    : null}
                 </h5>
                 <div className="form-group basic-textarea rounded-corners row ml-0 mr-0">
                   <textarea
                     className="form-control z-depth-1 col-sm"
                     id="Textarea"
                     rows="3"
-                    placeholder="Write your comment..."
+                    placeholder={
+                      auth.currentUser.isAnonymous
+                        ? "You must sign in to write a comment!"
+                        : "Write your comment..."
+                    }
                     value={this.state.commentText}
                     onChange={text => {
                       this.setState({ commentText: text.target.value });
                     }}
+                    disabled={auth.currentUser.isAnonymous ? true : false}
                   ></textarea>
                   <a
-                    className="btn-floating btn-primary rounded-circle send-comment-button"
+                    className={`btn-floating btn-primary rounded-circle send-comment-button
+                    ${auth.currentUser.isAnonymous ? " isDisabled" : ""}`}
                     onClick={this.handleSubmitComment}
                   >
                     <FontAwesomeIcon
@@ -219,21 +296,26 @@ class BlogPost extends React.Component {
           </div>
         </div>
         <style jsx>{`
-          .blog-picture {
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            height: 400px;
-            width: 100%;
-          }
-          .social-container {
-            color: #aaa;
-          }
-          .right-social {
-            width: 20%;
-          }
-        `}</style>
+      .blog-picture {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 550px;
+        width: 100%;
+      }
+      .social-container {
+        color: #aaa;
+      }
+      .right-social {
+        width: 20%;
+      }
+      .right-social a {
+        cursor pointer;
+      }
+    `}</style>
       </div>
+    ) : (
+      <Loading></Loading>
     );
   }
 }
@@ -242,4 +324,4 @@ BlogPost.getInitialProps = async ({ req, query }) => {
   return { postId: query.postId };
 };
 
-export default withAuth(BlogPost);
+export default BlogPost;

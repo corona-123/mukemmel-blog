@@ -36,7 +36,9 @@ class CreateBlog extends React.Component {
           date: firebase.firestore.Timestamp.now(),
           comments: [],
           author: authorName,
-          details: this.state.details
+          details: this.state.details,
+          likes: [],
+          views: 0
         })
         .then(docRef => {
           docPath = docRef.id;

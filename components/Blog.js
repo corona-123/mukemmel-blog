@@ -84,14 +84,20 @@ class Blog extends React.Component {
               className="form-control z-depth-1 col-sm"
               id="Textarea"
               rows="3"
-              placeholder="Write your comment..."
+              placeholder={
+                auth.currentUser.isAnonymous
+                  ? "You must sign in to write a comment!"
+                  : "Write your comment..."
+              }
               value={this.state.commentText}
               onChange={text => {
                 this.setState({ commentText: text.target.value });
               }}
+              disabled={auth.currentUser.isAnonymous ? true : false}
             ></textarea>
             <a
-              className="btn-floating btn-primary rounded-circle send-comment-button"
+              className={`btn-floating btn-primary rounded-circle send-comment-button
+                ${auth.currentUser.isAnonymous ? " isDisabled" : ""}`}
               onClick={this.handleSubmitComment}
             >
               <FontAwesomeIcon

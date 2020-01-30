@@ -14,7 +14,7 @@ const withAuth = Component => {
     componentDidMount() {
       auth.onAuthStateChanged(authUser => {
         // console.log(authUser);
-        if (authUser) {
+        if (!authUser.isAnonymous) {
           if (authUser.isAnonymous) {
             this.setState({
               status: "GUEST"
