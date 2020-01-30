@@ -1,70 +1,100 @@
 import React from "react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faPlus,
+  faAddressCard,
+  faUserCircle,
+  faSignInAlt,
+  faSignOutAlt
+} from "@fortawesome/fontawesome-free-solid";
+import { auth } from "../src/firebase";
 
 const Nav = () => (
-  <nav>
-    <ul>
+  <nav className="navbar navbar-expand-lg navbar-dark fixed-top justify-content-around">
+    <a className="navbar-brand bumblr " href="/">
+      Bumblr
+    </a>
+    <ul className="navbar-nav ">
       <Link href="/">
-        <li key="nav-Blogs">Blogs</li>
+        <li className="nav-item">
+          <a className="nav-link text-center h4" href="/blogs">
+            <FontAwesomeIcon icon={faHome} width="1.5rem"></FontAwesomeIcon>
+            <br></br>
+            Home
+          </a>
+        </li>
       </Link>
       <Link href="/createBlog">
-        <li key="nav-create-blog">Create Blog</li>
+        <li className="nav-item">
+          <a className="nav-link h4 text-center" href="/blogs">
+            <FontAwesomeIcon icon={faPlus} width="1.5rem"></FontAwesomeIcon>
+            <br></br>
+            Create Blog
+          </a>
+        </li>
+      </Link>
+      <Link href="/about">
+        <li className="nav-item">
+          <a className="nav-link h4 text-center" href="/blogs">
+            <FontAwesomeIcon
+              icon={faAddressCard}
+              width="1.5rem"
+            ></FontAwesomeIcon>
+            <br></br>
+            About Me
+          </a>
+        </li>
       </Link>
       <Link href="/profile">
-        <li key="nav-about">Profile</li>
+        <li className="nav-item">
+          <a className="nav-link h4 text-center" href="/blogs">
+            <FontAwesomeIcon
+              icon={faUserCircle}
+              width="1.5rem"
+            ></FontAwesomeIcon>
+            <br></br>
+            Your Profile
+          </a>
+        </li>
       </Link>
+    </ul>
+    <ul className="navbar-nav">
+      <li className="nav-item">
+        <a
+          className="nav-link h4 text-center"
+          href="/Login"
+          onClick={() =>
+            auth.currentUser.isAnonymous
+              ? null
+              : auth.signOut().then(() => alert("Signed out!"))
+          }
+        >
+          <FontAwesomeIcon
+            icon={auth.currentUser.isAnonymous ? faSignInAlt : faSignOutAlt}
+            width="1.5rem"
+          ></FontAwesomeIcon>
+          <br></br>
+          {auth.currentUser.isAnonymous ? "Sign in" : "Sign out"}
+        </a>
+      </li>
     </ul>
     <style jsx>{`
       nav {
-        position: fixed;
-        text-align: center;
-        padding: 1rem 3.5rem;
-        width: 100%;
-        z-index: 100;
+        background-color: #2bbbad;
       }
-      ul {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        flex-direction: row;
-        margin-bottom: 0;
+      .bumblr {
+        font-size: 1.8rem !important;
       }
-      li {
-        margin: 0 50px;
-        padding: 15px 20px;
-        border-radius: 20%;
-        transition: all 0.3s;
-        background: rgb(250, 250, 250);
-        color: #067df7;
-        text-decoration: none;
-        font-size: 21px;
-        opacity: 0.9;
-        border: 1px solid #cccccc;
+      li a {
+        color: rgba(255, 255, 255, 0.88) !important;
+        width: 150px;
       }
-      nav a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 21px;
-        transition: all 0.3s;
-      }
-      nav a:hover {
-        cursor: pointer;
-        color: #022222;
-      }
-      li:hover {
-        opacity: 1;
-        cursor: pointer;
-        background: rgb(148, 187, 233);
-        border-radius: 28%;
-        // background: linear-gradient(
-        //   0deg,
-        //   rgba(148, 187, 233, 0.3267682072829131) 0%,
-        //   rgba(238, 174, 202, 0.34637605042016806) 26%,
-        //   rgba(250, 250, 250, 0.1783088235294118) 68%
-        // );
-        box-shadow: 0 4px 8px 0 rgba(0, 140, 186, 0.5),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        color: #022222;
+      li a:hover {
+        color: rgba(50, 55, 55, 1) !important;
+        transition: all 0.3s ease;
+        // box-shadow: 0 4px 6px 0 black;
       }
     `}</style>
   </nav>

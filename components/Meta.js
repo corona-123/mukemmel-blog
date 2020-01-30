@@ -38,6 +38,9 @@ export default function Meta() {
             // height: 100%;
             box-sizing: border-box;
             overflow-y: scroll;
+            // background-image: url("./login-wall-1.jpg");
+            // background-repeat: no-repeat;
+            // background-size: cover;
           }
           body {
             padding-top: 100px;
@@ -192,6 +195,12 @@ export default function Meta() {
           }
           .blog-author {
             font-weight: bold;
+          }
+          .span p {
+            max-height: 130px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .blog-image {
             max-height: 300px;

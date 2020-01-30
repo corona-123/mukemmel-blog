@@ -1,6 +1,6 @@
-import Nav from "./nav copy";
+import Nav from "./nav";
 import Meta from "./Meta";
-import Profile from "../components/Profile copy";
+import Profile from "./Profile";
 import Header from "./Header";
 
 export default function LayoutTop({ parent }) {

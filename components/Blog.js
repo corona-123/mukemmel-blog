@@ -77,7 +77,7 @@ class Blog extends React.Component {
           </Link>
         </h2>
         <div className="blog-text">
-          <ReactMarkdown source={this.props.post.details} />
+          <ReactMarkdown className="span" source={this.props.post.details} />
         </div>
         <div className="blog-date-author justify-content-between">
           <div className="blog-author-container">

@@ -6,6 +6,7 @@ import "firebase/storage";
 import BlogList from "../components/BlogList";
 import "firebase/database";
 import Loading from "../components/Loading";
+import Profile from "../components/Profile";
 
 class ProfileBlogs extends React.Component {
   constructor(props) {
@@ -30,7 +31,6 @@ class ProfileBlogs extends React.Component {
         if (doc != null) {
           doc.forEach(post => {
             let image = null;
-            let details = null;
             let ref = firebase.storage().ref(`posts/${post.id}`);
             ref
               .child("photo.jpg")
@@ -109,7 +109,7 @@ class ProfileBlogs extends React.Component {
         <div className="content-background container-fluid">
           <div className="content-container container">
             <h1 className="display-4 mt-5 text-center border">
-              <u>You are signed in as:</u>
+              <Profile></Profile>
               <br></br>
               {this.state.searchAuthor}
             </h1>

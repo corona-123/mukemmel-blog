@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Nav from "./nav copy";
+import Nav from "./nav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
