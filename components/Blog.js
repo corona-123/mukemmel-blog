@@ -155,7 +155,6 @@ class Blog extends React.Component {
                   ? "/profile"
                   : `/profile/${[this.props.post.author]}`
               }
-              // as={`/profile/${this.props.post.author}`}
             >
               <a className="text-center" href="/profile">
                 <span className="blog-author">{this.props.post.author}</span>

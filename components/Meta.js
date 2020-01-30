@@ -19,7 +19,7 @@ export default function Meta() {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
-        <title>{`DN - ${title.toUpperCase()}`}</title>
+        <title>{`DN - ${title.toUpperCase().split("/")[0]}`}</title>
         <meta name="Description" content="Mükemmel(!) Blog"></meta>
         <link rel="icon" href="/thumbnailIcon.ico" />
         <link
@@ -35,15 +35,10 @@ export default function Meta() {
             box-sizing: inherit;
           }
           html {
-            // height: 100%;
             box-sizing: border-box;
-            // overflow-y: scroll;
-            // background-image: url("./login-wall-1.jpg");
-            // background-repeat: no-repeat;
-            // background-size: cover;
           }
           body {
-            padding-top: 100px;
+            padding-top: 70px;
             padding-bottom: 50px;
             font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
               Helvetica, sans-serif;
@@ -54,12 +49,6 @@ export default function Meta() {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background: rgb(255, 255, 255);
-            // background: linear-gradient(
-            //   90deg,
-            //   rgba(255, 255, 255, 1) 0%,
-            //   rgba(236, 237, 238, 1) 50%,
-            //   rgba(255, 255, 255, 1) 100%
-            // );
           }
           .wrap {
             display: -webkit-box;
@@ -272,7 +261,7 @@ export default function Meta() {
             // text-align: right;
             display: flex;
             color: #cccccc;
-            margin: 12px 0 48px 0;
+            margin: 14px 0 30px 0;
           }
           .blog-author {
             font-weight: bold;

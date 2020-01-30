@@ -85,6 +85,7 @@ const Nav = () => (
       nav {
         // background-color: #2bbbad;
         background-color: #742f77;
+        max-height: 70px;
       }
       .bumblr {
         font-size: 1.8rem !important;
