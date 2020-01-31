@@ -42,14 +42,17 @@ class BlogPost extends React.Component {
       .doc(this.props.postId)
       .get()
       .then(snapshot => {
+        let timestampToDate = new Date(
+          (snapshot.data().date.seconds +
+            snapshot.data().date.nanoseconds / 1000000000) *
+            1000
+        );
         this.setState({
           title: snapshot.data().title,
           author: snapshot.data().author,
-          date: new Date(
-            (snapshot.data().date.seconds +
-              snapshot.data().date.nanoseconds / 1000000000) *
-              1000
-          ).toDateString("dd/mm/yyyy"),
+          date: `${timestampToDate.getDate()}/${parseInt(
+            timestampToDate.getMonth() + 1
+          )}/${timestampToDate.getFullYear()}`,
           comments: snapshot.data().comments,
           slug: snapshot.id,
           details: snapshot.data().details,

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Comment = ({ Comment }) => {
   let initials = "";
@@ -18,7 +19,13 @@ const Comment = ({ Comment }) => {
         alt="Avatar"
       />
       <div className="media-body">
-        <h5 className="mt-0 font-weight-bold blue-text">{Comment.commentor}</h5>
+        <Link href={`/profile/${[Comment.commentor]}`}>
+          <a className="commentor-container ">
+            <h5 className="mt-0 font-weight-bold commentor">
+              {Comment.commentor}
+            </h5>
+          </a>
+        </Link>
         {Comment.message}
       </div>
       <div className="comment-date">

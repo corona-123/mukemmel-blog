@@ -25,10 +25,13 @@ const BlogList = ({ posts }) => {
                   <div className="date">
                     <h4>{post.date}</h4>
                   </div>
+                  {/* <div className="date">
+                    <h4>{post.date}</h4>
+                  </div> */}
                   <h1>{post.title}</h1>
-                  <div className="poster p1">
+                  {/* <div className="poster p1">
                     <h4>{initials}</h4>
-                  </div>
+                  </div> */}
                 </div>
               </Link>
             );

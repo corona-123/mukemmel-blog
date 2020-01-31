@@ -38,17 +38,20 @@ class Home extends React.Component {
                   "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
               })
               .then(() => {
+                let timestampToDate = new Date(
+                  (post.data().date.seconds +
+                    post.data().date.nanoseconds / 1000000000) *
+                    1000
+                );
                 this.setState({
                   posts: [
                     ...this.state.posts,
                     {
                       title: post.data().title,
                       author: post.data().author,
-                      date: new Date(
-                        (post.data().date.seconds +
-                          post.data().date.nanoseconds / 1000000000) *
-                          1000
-                      ).toDateString("dd/mm/yyyy"),
+                      date: `${timestampToDate.getDate()}/${parseInt(
+                        timestampToDate.getMonth() + 1
+                      )}/${timestampToDate.getFullYear()}`,
                       comments: post.data().comments,
                       slug: post.id,
                       hero_image: image,

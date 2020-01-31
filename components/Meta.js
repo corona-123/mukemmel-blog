@@ -113,10 +113,19 @@ export default function Meta() {
           .poster {
             width: 130px;
             height: 130px;
-            margin: 120px auto;
+            margin: 100px auto;
             position: relative;
             border-radius: 100px;
+            overflow: hidden;
           }
+          // .poster h4 {
+          //   top: 17px;
+          //   color: #fff;
+          //   position: relative;
+          //   font-size: 80px;
+          //   text-align: center;
+          //   font-weight: 100;
+          // }
           .poster h4 {
             top: 16px;
             color: #fff;
@@ -131,6 +140,30 @@ export default function Meta() {
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
             padding: 8px;
           }
+          // .p1 {
+          //   background: #da22ff; /* fallback for old browsers */
+          //   background: -webkit-linear-gradient(
+          //     to right,
+          //     #9733ee,
+          //     #da22ff
+          //   ); /* Chrome 10-25, Safari 5.1-6 */
+          //   background: -webkit-gradient(
+          //     linear,
+          //     left top,
+          //     right top,
+          //     from(#9733ee),
+          //     to(#da22ff)
+          //   );
+          //   background: -webkit-linear-gradient(left, #9733ee, #da22ff);
+          //   background: -o-linear-gradient(left, #9733ee, #da22ff);
+          //   background: linear-gradient(
+          //     to right,
+          //     #9733ee,
+          //     #da22ff
+          //   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+          //   -webkit-box-shadow: 0 0 20px violet;
+          //   box-shadow: 0 0 20px violet;
+          // }
           ul {
             list-style: none;
             margin: 0;
@@ -664,6 +697,17 @@ export default function Meta() {
             font-size: 15px;
             align-items: center;
             height: 150px;
+          }
+          .commentor-container {
+            cursor: pointer;
+            text-decoration: none;
+          }
+          .commentor-container h5:hover {
+            cursor: pointer;
+            text-decoration: none;
+          }
+          a:hover {
+            text-decoration: none;
           }
 
            {
