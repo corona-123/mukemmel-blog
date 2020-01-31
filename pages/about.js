@@ -1,6 +1,5 @@
 import React from "react";
 import LayoutTop from "../components/LayoutTop";
-import withAuth from "../src/helpers/withAuth";
 
 class About extends React.Component {
   render() {
@@ -34,7 +33,7 @@ class About extends React.Component {
           kalmadığını düşünüyorum.
         </h5>
         <h5 className="container text-center font-weight-bold">
-          Front-end sevmediğim umarım belli olmuyordur...
+          İletişim için Instagram, LinkedIn veya Mail kullanabilirsiniz...
         </h5>
         <h4 className="container text-center font-weight-bold">
           Mail Adresim:{" "}

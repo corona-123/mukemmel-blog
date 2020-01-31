@@ -16,7 +16,7 @@ const BlogList = ({ posts }) => {
               initials = firstLetter + secondLetter;
             } else initials = "G";
             return (
-              <Link key={index} href={post.slug}>
+              <Link key={index} href={`/${post.slug}`}>
                 <div
                   key={index}
                   className="box"

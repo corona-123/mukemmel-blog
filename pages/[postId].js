@@ -61,10 +61,9 @@ class BlogPost extends React.Component {
           liked: snapshot
             .data()
             .likes.includes(
-              !auth.currentUser.isAnonymous
-                ? auth.currentUser.displayName
-                : "nope"
-            )
+              !auth.currentUser.isAnonymous ? auth.currentUser.uid : "nope"
+            ),
+          userID: snapshot.data().userID
         });
       })
       .catch(err => console.log(err))
@@ -118,7 +117,7 @@ class BlogPost extends React.Component {
   handleSubmitComment = async () => {
     if (auth.currentUser != null && auth.currentUser != undefined) {
       if (!auth.currentUser.isAnonymous)
-        this.state.commentor = auth.currentUser.displayName;
+        this.setState({ commentor: auth.currentUser.displayName });
     }
     let commentsArr = [];
     let getPost = await firestore
@@ -129,7 +128,8 @@ class BlogPost extends React.Component {
     commentsArr.push({
       commentor: this.state.commentor,
       date: firebase.firestore.Timestamp.now(),
-      message: this.state.commentText
+      message: this.state.commentText,
+      commentorID: auth.currentUser.uid
     });
     await firestore
       .collection("posts")
@@ -160,11 +160,11 @@ class BlogPost extends React.Component {
       .doc(this.state.slug)
       .get();
     likesArr = getPost.data().likes;
-    if (likesArr.includes(auth.currentUser.displayName)) {
-      let index = likesArr.indexOf(auth.currentUser.displayName);
+    if (likesArr.includes(auth.currentUser.uid)) {
+      let index = likesArr.indexOf(auth.currentUser.uid);
       likesArr.splice(index, 1);
     } else {
-      likesArr.push(auth.currentUser.displayName);
+      likesArr.push(auth.currentUser.uid);
     }
     await firestore
       .collection("posts")

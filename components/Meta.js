@@ -164,6 +164,12 @@ export default function Meta() {
           //   -webkit-box-shadow: 0 0 20px violet;
           //   box-shadow: 0 0 20px violet;
           // }
+          #input-profile {
+            display: none;
+          }
+          .link-black {
+            color: inherit;
+          }
           ul {
             list-style: none;
             margin: 0;
@@ -388,6 +394,7 @@ export default function Meta() {
             padding: 5px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             object-fit: cover;
+            min-height: 300px;
           }
           .blog-image:hover {
             box-shadow: 0 4px 8px 0 rgba(0, 140, 186, 0.5),

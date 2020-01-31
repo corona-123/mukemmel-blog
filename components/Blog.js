@@ -16,19 +16,23 @@ class Blog extends React.Component {
     super(props);
     this.state = {
       commentText: "",
-      commentor: "Guest",
+      commentor: "",
+      commentorID: 0,
       showOrHideComment: false,
       showOrHideDetails: false,
       isLoading: true
     };
   }
-  componentDidMount() {
-    this.setState({ isLoading: false });
-  }
+  componentDidMount = async () => {
+    await this.setState({ isLoading: false });
+  };
   handleSubmitComment = async () => {
     if (auth.currentUser != null && auth.currentUser != undefined) {
       if (!auth.currentUser.isAnonymous)
-        this.state.commentor = auth.currentUser.displayName;
+        this.setState({
+          commentorID: auth.currentUser.uid,
+          commentor: auth.currentUser.displayName
+        });
     }
     let commentsArr = [];
     let getPost = await firestore
@@ -38,9 +42,13 @@ class Blog extends React.Component {
     commentsArr = getPost.data().comments;
     commentsArr.push({
       commentor: this.state.commentor,
+      commentorID: auth.currentUser.uid,
       date: firebase.firestore.Timestamp.now(),
       message: this.state.commentText
     });
+    console.log("commentsArr");
+    console.log(commentsArr);
+    console.log("commentsArr");
     await firestore
       .collection("posts")
       .doc(this.props.post.slug)
@@ -157,9 +165,9 @@ class Blog extends React.Component {
             <span>Posted by : </span>
             <Link
               href={
-                auth.currentUser.displayName == this.props.post.author
+                auth.currentUser.uid == this.props.post.userID
                   ? "/profile"
-                  : `/profile/${[this.props.post.author]}`
+                  : `/profile/${[this.props.post.userID]}`
               }
             >
               <a className="text-center" href="/profile">
@@ -205,7 +213,7 @@ class Blog extends React.Component {
                   </div>
                 ) : //if caller bloglist and there are comments !not more than 2 SHOW HIDE
                 null}
-                {this.state.showOrHideComment
+                {this.props.showOrHideComment
                   ? this.props.post.comments.map((comment, index) => {
                       if (
                         index != this.props.post.comments.length - 2 &&

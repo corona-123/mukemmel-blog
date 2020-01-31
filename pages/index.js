@@ -13,12 +13,14 @@ class Home extends React.Component {
     this.state = {
       posts: [],
       isLoading: true,
-      sorted: null
+      sorted: null,
+      buffer: 5
     };
   }
   getPosts = async () => {
     await firestore
       .collection("posts")
+      // .limit(this.state.buffer)
       .get()
       .then(doc => {
         if (doc != null) {
@@ -59,7 +61,10 @@ class Home extends React.Component {
                       dateSorter:
                         (post.data().date.seconds +
                           post.data().date.nanoseconds / 1000000000) *
-                        1000
+                        1000,
+                      likes: post.data().likes,
+                      views: post.data().views,
+                      userID: post.data().userID
                     }
                   ],
                   sorted: false
@@ -70,25 +75,21 @@ class Home extends React.Component {
         }
       })
       .catch(err => console.log(err))
-      .then(() => {
-        firestore.collection("posts").onSnapshot(col => {
-          // this.setState({
-          //   posts: doc.
-          // });
-          // console.log(this.state.posts.find(x => x.title == "1"));
+      .then(async () => {
+        await firestore.collection("posts").onSnapshot(col => {
           col.docChanges().forEach(change => {
-            if (change.type == "modified") {
-              let newPosts = this.state.posts.slice();
-              newPosts[change.oldIndex - 1] = {
-                ...newPosts[change.oldIndex - 1],
-                title: change.doc.data().title,
-                details: change.doc.data().details,
-                comments: change.doc.data().comments
-              };
-              this.setState({
-                posts: newPosts
-              });
-            }
+            let newPosts = this.state.posts.slice();
+            newPosts[change.oldIndex] = {
+              ...newPosts[change.oldIndex],
+              title: change.doc.data().title,
+              details: change.doc.data().details,
+              comments: change.doc.data().comments,
+              likes: change.doc.data().likes,
+              views: change.doc.data().views
+            };
+            this.setState({
+              posts: newPosts
+            });
           });
         });
       });
@@ -100,6 +101,7 @@ class Home extends React.Component {
     if (!this.state.sorted) {
       this.sortPosts();
     }
+    console.log(this.state.buffer);
   }
   sortPosts() {
     let posts = [];
@@ -117,9 +119,25 @@ class Home extends React.Component {
     });
   }
   componentDidMount() {
+    window.addEventListener("scroll", this.listenToScroll);
     this.getPosts();
     this.setState({ isLoading: false });
   }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.listenToScroll);
+  }
+  listenToScroll = () => {
+    const windowScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrolled = windowScroll / height;
+    if (scrolled > 0.95) {
+      this.getPosts();
+      this.setState({ buffer: this.state.buffer + 3 });
+    }
+  };
   render() {
     return this.state.isLoading ||
       auth.currentUser == null ||

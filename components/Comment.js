@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { auth } from "../src/firebase/index";
 
 const Comment = ({ Comment }) => {
   let initials = "";
@@ -14,12 +15,16 @@ const Comment = ({ Comment }) => {
     <div className="media mt-3 shadow-textarea">
       <img
         className="d-flex rounded-circle avatar z-depth-1-half mr-3"
-        src="http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
+        src={
+          auth.currentUser.uid == Comment.commentorID
+            ? auth.currentUser.photoURL
+            : "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
+        }
         height="100px"
         alt="Avatar"
       />
       <div className="media-body">
-        <Link href={`/profile/${[Comment.commentor]}`}>
+        <Link href={`/profile/${[Comment.commentorID]}`}>
           <a className="commentor-container ">
             <h5 className="mt-0 font-weight-bold commentor">
               {Comment.commentor}

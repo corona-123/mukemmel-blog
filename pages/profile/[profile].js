@@ -14,7 +14,8 @@ class DynamicProfile extends React.Component {
       posts: [],
       isLoading: true,
       sorted: null,
-      searchAuthor: "Guest",
+      userID: 0,
+      profileName: "",
       commentCount: 0
     };
   }
@@ -27,7 +28,7 @@ class DynamicProfile extends React.Component {
       .then(doc => {
         doc.forEach(post => {
           post.data().comments.forEach(comment => {
-            if (comment.commentor == this.state.searchAuthor) count++;
+            if (comment.commentorID == this.state.userID) count++;
           });
         });
       })
@@ -39,12 +40,12 @@ class DynamicProfile extends React.Component {
 
   getPosts = async () => {
     await this.setState({
-      searchAuthor: this.props.profileName
+      userID: this.props.profileName
     });
 
     await firestore
       .collection("posts")
-      .where("author", "==", this.state.searchAuthor)
+      .where("userID", "==", this.state.userID)
       .get()
       .then(doc => {
         if (doc != null) {
@@ -84,10 +85,12 @@ class DynamicProfile extends React.Component {
                       dateSorter:
                         (post.data().date.seconds +
                           post.data().date.nanoseconds / 1000000000) *
-                        1000
+                        1000,
+                      userID: post.data().userID
                     }
                   ],
-                  sorted: false
+                  sorted: false,
+                  profileName: post.data().author
                 });
               });
           });
@@ -133,12 +136,9 @@ class DynamicProfile extends React.Component {
         <LayoutTop></LayoutTop>
         <div className=" mt-5 mr-1 ml-1 border profile-background">
           <div className="container">
-            <Profile
-              User={this.state.searchAuthor}
-              otherProfile={true}
-            ></Profile>
+            <Profile User={this.state.userID} otherProfile={true}></Profile>
             <span className="display-4 white-background border">
-              {this.state.searchAuthor}
+              {this.state.profileName}
             </span>
             <br></br>
             <div className="mt-4 row white-background border">

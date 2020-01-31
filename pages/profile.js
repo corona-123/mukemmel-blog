@@ -7,6 +7,13 @@ import "firebase/database";
 import Loading from "../components/Loading";
 import Profile from "../components/Profile";
 import BlogListMini from "../components/BlogListMini";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCog,
+  faBookmark,
+  faPlusCircle
+} from "@fortawesome/fontawesome-free-solid";
+import Link from "next/link";
 
 class ProfileBlogs extends React.Component {
   constructor(props) {
@@ -15,7 +22,8 @@ class ProfileBlogs extends React.Component {
       posts: [],
       isLoading: true,
       sorted: null,
-      searchAuthor: "Guest",
+      userID: 0,
+      profileName: "",
       commentCount: 0
     };
   }
@@ -28,7 +36,7 @@ class ProfileBlogs extends React.Component {
       .then(doc => {
         doc.forEach(post => {
           post.data().comments.forEach(comment => {
-            if (comment.commentor == this.state.searchAuthor) count++;
+            if (comment.commentorID == this.state.userID) count++;
           });
         });
       })
@@ -39,18 +47,23 @@ class ProfileBlogs extends React.Component {
   };
 
   getPosts = async () => {
-    if (this.props.lookUp != undefined) {
-      await this.setState({ searchAuthor: this.props.lookUp });
-    } else {
-      if (auth.currentUser != undefined && auth.currentUser != null) {
-        if (!auth.currentUser.isAnonymous) {
-          await this.setState({ searchAuthor: auth.currentUser.displayName });
-        }
-      }
-    }
+    // if (this.props.lookUp != undefined) {
+    //   await this.setState({ userID: this.props.lookUp });
+    // } else {
+    //   if (auth.currentUser != undefined && auth.currentUser != null) {
+    //     if (!auth.currentUser.isAnonymous) {
+    //       await this.setState({ userID: auth.currentUser.uid });
+    //     }
+    //   }
+    // }
+    await this.setState({
+      userID: auth.currentUser.uid,
+      profileName: auth.currentUser.displayName
+    });
+    console.log(this.state.userID);
     await firestore
       .collection("posts")
-      .where("author", "==", this.state.searchAuthor)
+      .where("userID", "==", this.state.userID)
       .get()
       .then(doc => {
         if (doc != null) {
@@ -90,7 +103,8 @@ class ProfileBlogs extends React.Component {
                       dateSorter:
                         (post.data().date.seconds +
                           post.data().date.nanoseconds / 1000000000) *
-                        1000
+                        1000,
+                      userID: post.data().userID
                     }
                   ],
                   sorted: false
@@ -125,12 +139,32 @@ class ProfileBlogs extends React.Component {
     });
   }
   componentDidMount() {
-    console.log(this.props.queryId);
     this.getPosts();
     this.getCommentsCount();
     this.setState({ isLoading: false });
   }
   render() {
+    // let profileInputComponent = (
+    //   <input
+    //     id="input-profile"
+    //     type="file"
+    //     onChange={e => {
+    //       if (
+    //         e.target.files.item(0).type != "image/jpeg" &&
+    //         e.target.files.item(0).type != "image/png" &&
+    //         e.target.files.item(0).type != "image/gif" &&
+    //         e.target.files.item(0) != "image/webp"
+    //       ) {
+    //         alert("You can only upload: GIF/JPEG/JPG/PNG/WEBP !");
+    //       } else {
+    //         this.setState({
+    //           image: e.target.files.item(0)
+    //         });
+    //       }
+    //     }}
+    //     accept="image/*"
+    //   />
+    // );
     return this.state.isLoading ? (
       <Loading></Loading>
     ) : (
@@ -138,10 +172,12 @@ class ProfileBlogs extends React.Component {
         <LayoutTop></LayoutTop>
         <div className=" mt-5 mr-1 ml-1 border profile-background">
           <div className="container">
-            <Profile User={this.state.searchAuthor}></Profile>
+            {/* {profileInputComponent} */}
+            <Profile User={this.state.profileName}></Profile>
             <span className="display-4 white-background border">
-              {this.state.searchAuthor}
+              {this.state.profileName}
             </span>
+
             <br></br>
             <div className="mt-4 row white-background border">
               <h5 className="mr-1">Posts: </h5>
@@ -164,15 +200,39 @@ class ProfileBlogs extends React.Component {
             </div>
           </div>
         </div>
-        <div className="content-background container-fluid">
-          {/* <span className="display-3">Posts:</span> */}
+        <div className="container-fluid">
+          <br></br>
+          <div className="text-center row justify-content-md-center">
+            <Link href="/favourites">
+              <a className="text-center link-black mx-1 col-sm-2">
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  width="35px"
+                ></FontAwesomeIcon>
+                <h4>Favourites</h4>
+              </a>
+            </Link>
+            <Link href="/createBlog">
+              <a className="text-center link-black mx-1 col-sm-2">
+                <FontAwesomeIcon
+                  icon={faPlusCircle}
+                  width="35px"
+                ></FontAwesomeIcon>
+                <h4>Create Blog</h4>
+              </a>
+            </Link>
+            <Link href="/createBlog">
+              <a className="text-center link-black mx-1 col-sm-2">
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  width="35px"
+                ></FontAwesomeIcon>
+                <h4>Favourites</h4>
+              </a>
+            </Link>
+          </div>
           <br></br>
           <BlogListMini posts={this.state.posts}></BlogListMini>
-          {/* <div className="content-container container">
-            <br></br>
-
-            <BlogList posts={this.state.posts}></BlogList>
-          </div> */}
         </div>
       </section>
     );

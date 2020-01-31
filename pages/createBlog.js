@@ -38,7 +38,8 @@ class CreateBlog extends React.Component {
           author: authorName,
           details: this.state.details,
           likes: [],
-          views: 0
+          views: 0,
+          userID: auth.currentUser.uid
         })
         .then(docRef => {
           docPath = docRef.id;
@@ -47,15 +48,15 @@ class CreateBlog extends React.Component {
         .catch(error => {
           console.error("Error writing document: ", error);
         })
-        .then(() => {
+        .then(async () => {
           var ref = firebase
             .storage()
             .ref()
             .child(`posts/${docPath}/photo.jpg`);
-          ref.put(this.state.image);
+          await ref.put(this.state.image);
         })
+        .catch(err => console.log(err))
         .then(() => {
-          console.log("image uploaded");
           Router.push("/");
         })
         .catch(err => {
