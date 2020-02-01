@@ -274,6 +274,9 @@ export default function Meta() {
             font-size: 0.85rem;
             line-height: 1.45rem;
           }
+          .blue {
+            color: #0056b3;
+          }
 
           @keyframes spin {
             to {

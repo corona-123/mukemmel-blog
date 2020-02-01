@@ -16,6 +16,7 @@ import "firebase/database";
 import "firebase";
 import "firebase/storage";
 import { firebase, auth, firestore } from "../src/firebase/index";
+import { FacebookShareButton } from "react-share";
 
 class BlogPost extends React.Component {
   constructor(props) {
@@ -32,7 +33,9 @@ class BlogPost extends React.Component {
       views: 0,
       commentText: "",
       commentor: "Guest",
-      liked: false
+      liked: false,
+      showPopup: false,
+      userID: 0
     };
   }
 
@@ -198,9 +201,9 @@ class BlogPost extends React.Component {
               <Link
                 href={
                   auth.currentUser != null && auth.currentUser != undefined
-                    ? auth.currentUser.displayName == this.state.author
+                    ? auth.currentUser.uid == this.state.userID
                       ? "/profile"
-                      : `/profile/${[this.state.author]}`
+                      : `/profile/${[this.state.userID]}`
                     : null
                 }
               >
@@ -230,12 +233,15 @@ class BlogPost extends React.Component {
                 {this.state.views + " "}
                 <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
               </div>
-              <a>
+
+              <FacebookShareButton
+                url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
+              >
                 <FontAwesomeIcon
                   icon={faShareAlt}
                   width="35px"
                 ></FontAwesomeIcon>
-              </a>
+              </FacebookShareButton>
             </div>
           </div>
           <div className="mt-5 blog-bottom">

@@ -3,6 +3,8 @@ import { auth } from "../src/firebase/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faEye, faComment } from "@fortawesome/free-solid-svg-icons";
 import ReactMarkdown from "react-markdown";
+import { FacebookShareButton } from "react-share";
+import { faShareAlt } from "@fortawesome/fontawesome-free-solid";
 
 const BlogList = ({ posts }) => {
   let i = 0;

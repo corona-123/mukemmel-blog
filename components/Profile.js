@@ -14,10 +14,19 @@ const Profile = ({ User, otherProfile }) => {
     if (auth.currentUser.isAnonymous) {
       display = "Guest";
       image = otherProfile ? (
-        <div className="container float-left mr-4 profile-information">
-          <FontAwesomeIcon icon={faUser} width="100px"></FontAwesomeIcon>
-          {display}
-        </div>
+        auth.currentUser.isAnonymous ? (
+          <img
+            src={
+              "https://w0.pngwave.com/png/18/809/user-computer-icons-person-icon-png-clip-art.png"
+            }
+            className="container float-left mr-4 profile-information"
+          ></img>
+        ) : (
+          <div className="container float-left mr-4 profile-information">
+            <FontAwesomeIcon icon={faUser} width="100px"></FontAwesomeIcon>
+            {display}
+          </div>
+        )
       ) : (
         <div className="container float-right mr-4 mini-profile">
           <FontAwesomeIcon icon={faUser} width="35px"></FontAwesomeIcon>
@@ -34,7 +43,7 @@ const Profile = ({ User, otherProfile }) => {
         <img
           src={
             otherProfile
-              ? "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRmdIsW4yYZG0t3VLebRq_aweD7-iziWjwSeYdpuqmTL-c-UUyz"
+              ? "https://w0.pngwave.com/png/18/809/user-computer-icons-person-icon-png-clip-art.png"
               : user.photoURL
           }
           className="container float-left mr-4 profile-information"

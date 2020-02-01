@@ -3,7 +3,7 @@ import LayoutTop from "../components/LayoutTop";
 import { firebase, auth, firestore } from "../src/firebase/index";
 import withAuth from "../src/helpers/withAuth";
 import "firebase/storage";
-import BlogList from "../components/BlogList";
+import BlogList from "../components/BlogListHome";
 import "firebase/database";
 import Loading from "../components/Loading";
 

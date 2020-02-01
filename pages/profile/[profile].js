@@ -6,7 +6,7 @@ import "firebase/storage";
 import "firebase/database";
 import Loading from "../../components/Loading";
 import Profile from "../../components/Profile";
-import BlogListMini from "../../components/BlogListMini";
+import BlogListMini from "../../components/BlogListProfile";
 class DynamicProfile extends React.Component {
   constructor(props) {
     super(props);

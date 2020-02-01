@@ -6,12 +6,13 @@ import "firebase/storage";
 import "firebase/database";
 import Loading from "../components/Loading";
 import Profile from "../components/Profile";
-import BlogListMini from "../components/BlogListMini";
+import BlogListMini from "../components/BlogListProfile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCog,
   faBookmark,
-  faPlusCircle
+  faPlusCircle,
+  faSignOutAlt
 } from "@fortawesome/fontawesome-free-solid";
 import Link from "next/link";
 
@@ -24,7 +25,9 @@ class ProfileBlogs extends React.Component {
       sorted: null,
       userID: 0,
       profileName: "",
-      commentCount: 0
+      commentCount: 0,
+      favourites: [],
+      isFavourite: false
     };
   }
 
@@ -43,6 +46,57 @@ class ProfileBlogs extends React.Component {
       .catch(err => console.log(err))
       .then(() => {
         this.setState({ commentCount: count });
+      });
+  };
+  getFavourites = async () => {
+    await firestore
+      .collection("users")
+      .doc(auth.currentUser.uid)
+      .get()
+      .then(doc => {
+        console.log(doc);
+        doc.data().favourites.forEach(async postID => {
+          let image = null;
+          let ref = firebase.storage().ref(`posts/${postID}`);
+          await ref
+            .child("photo.jpg")
+            .getDownloadURL()
+            .then(photo => {
+              image = photo;
+            });
+          await firestore
+            .collection("posts")
+            .doc(postID)
+            .get()
+            .then(post => {
+              let timestampToDate = new Date(
+                (post.data().date.seconds +
+                  post.data().date.nanoseconds / 1000000000) *
+                  1000
+              );
+              this.setState({
+                favourites: [
+                  ...this.state.favourites,
+                  {
+                    title: post.data().title,
+                    author: post.data().author,
+                    date: `${timestampToDate.getDate()}/${parseInt(
+                      timestampToDate.getMonth() + 1
+                    )}/${timestampToDate.getFullYear()}`,
+                    comments: post.data().comments,
+                    slug: post.id,
+                    hero_image: image,
+                    details: post.data().details,
+                    dateSorter:
+                      (post.data().date.seconds +
+                        post.data().date.nanoseconds / 1000000000) *
+                      1000,
+                    userID: post.data().userID
+                  }
+                ]
+              });
+            });
+        });
       });
   };
 
@@ -140,6 +194,7 @@ class ProfileBlogs extends React.Component {
   componentDidMount() {
     this.getPosts();
     this.getCommentsCount();
+    this.getFavourites();
     this.setState({ isLoading: false });
   }
   render() {
@@ -202,15 +257,18 @@ class ProfileBlogs extends React.Component {
         <div className="container-fluid">
           <br></br>
           <div className="text-center row justify-content-md-center">
-            <Link href="/favourites">
-              <a className="text-center link-black mx-1 col-sm-2">
-                <FontAwesomeIcon
-                  icon={faBookmark}
-                  width="35px"
-                ></FontAwesomeIcon>
-                <h4>Favourites</h4>
-              </a>
-            </Link>
+            <a
+              className={`text-center link-black mx-1 col-sm-2 ${
+                this.state.isFavourite ? "blue" : ""
+              }`}
+              href="#"
+              onClick={() =>
+                this.setState({ isFavourite: !this.state.isFavourite })
+              }
+            >
+              <FontAwesomeIcon icon={faBookmark} width="35px"></FontAwesomeIcon>
+              <h4>Favourites</h4>
+            </a>
             <Link href="/createBlog">
               <a className="text-center link-black mx-1 col-sm-2">
                 <FontAwesomeIcon
@@ -220,18 +278,24 @@ class ProfileBlogs extends React.Component {
                 <h4>Create Blog</h4>
               </a>
             </Link>
-            <Link href="/createBlog">
-              <a className="text-center link-black mx-1 col-sm-2">
-                <FontAwesomeIcon
-                  icon={faBookmark}
-                  width="35px"
-                ></FontAwesomeIcon>
-                <h4>Favourites</h4>
-              </a>
-            </Link>
+            <a
+              className="text-center link-black mx-1 col-sm-2"
+              href="/Login"
+              onClick={() => auth.signOut()}
+            >
+              <FontAwesomeIcon
+                icon={faSignOutAlt}
+                width="35px"
+              ></FontAwesomeIcon>
+              <h4>Sign out</h4>
+            </a>
           </div>
           <br></br>
-          <BlogListMini posts={this.state.posts}></BlogListMini>
+          <BlogListMini
+            posts={
+              this.state.isFavourite ? this.state.favourites : this.state.posts
+            }
+          ></BlogListMini>
         </div>
       </section>
     );
