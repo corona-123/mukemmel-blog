@@ -60,7 +60,6 @@ class ProfileBlogs extends React.Component {
       userID: auth.currentUser.uid,
       profileName: auth.currentUser.displayName
     });
-    console.log(this.state.userID);
     await firestore
       .collection("posts")
       .where("userID", "==", this.state.userID)

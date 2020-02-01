@@ -67,9 +67,9 @@ class BlogPost extends React.Component {
         });
       })
       .catch(err => console.log(err))
-      .then(() => {
-        let ref = firebase.storage().ref(`posts/${this.props.postId}`);
-        ref
+      .then(async () => {
+        let ref = await firebase.storage().ref(`posts/${this.props.postId}`);
+        await ref
           .child("photo.jpg")
           .getDownloadURL()
           .then(photo => {
@@ -144,7 +144,6 @@ class BlogPost extends React.Component {
         this.setState({
           commentText: ""
         });
-        alert("Comment sent...");
       })
       .catch(err => {
         console.log(err);

@@ -134,6 +134,7 @@ class CreateBlog extends React.Component {
                   id="title"
                   placeholder="Enter Title.."
                   name="title"
+                  maxLength="35"
                   onChange={text => {
                     this.setState({
                       title: text.target.value

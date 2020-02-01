@@ -24,11 +24,11 @@ class Home extends React.Component {
       .get()
       .then(doc => {
         if (doc != null) {
-          doc.forEach(post => {
+          doc.forEach(async post => {
             let image = null;
             let details = null;
             let ref = firebase.storage().ref(`posts/${post.id}`);
-            ref
+            await ref
               .child("photo.jpg")
               .getDownloadURL()
               .then(photo => {
@@ -92,7 +92,8 @@ class Home extends React.Component {
             });
           });
         });
-      });
+      })
+      .catch(err => console.log(err));
   };
   sortNumber(a, b) {
     return b - a;
@@ -101,7 +102,6 @@ class Home extends React.Component {
     if (!this.state.sorted) {
       this.sortPosts();
     }
-    console.log(this.state.buffer);
   }
   sortPosts() {
     let posts = [];
@@ -119,25 +119,25 @@ class Home extends React.Component {
     });
   }
   componentDidMount() {
-    window.addEventListener("scroll", this.listenToScroll);
+    // window.addEventListener("scroll", this.listenToScroll);
     this.getPosts();
     this.setState({ isLoading: false });
   }
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.listenToScroll);
+    // window.removeEventListener("scroll", this.listenToScroll);
   }
-  listenToScroll = () => {
-    const windowScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    const height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const scrolled = windowScroll / height;
-    if (scrolled > 0.95) {
-      this.getPosts();
-      this.setState({ buffer: this.state.buffer + 3 });
-    }
-  };
+  // listenToScroll = () => {
+  //   const windowScroll =
+  //     document.body.scrollTop || document.documentElement.scrollTop;
+  //   const height =
+  //     document.documentElement.scrollHeight -
+  //     document.documentElement.clientHeight;
+  //   const scrolled = windowScroll / height;
+  //   if (scrolled > 0.95) {
+  //     this.getPosts();
+  //     this.setState({ buffer: this.state.buffer + 3 });
+  //   }
+  // };
   render() {
     return this.state.isLoading ||
       auth.currentUser == null ||
@@ -146,7 +146,7 @@ class Home extends React.Component {
     ) : (
       <div className="layout">
         <LayoutTop></LayoutTop>
-        <div className="content-container container">
+        <div className=" container-fluid">
           <BlogList posts={this.state.posts}></BlogList>
         </div>
       </div>

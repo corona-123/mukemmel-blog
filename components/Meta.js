@@ -311,6 +311,176 @@ export default function Meta() {
           .blog-author {
             font-weight: bold;
           }
+
+          //Yeni
+
+          * {
+            box-sizing: border-box;
+            line-height: 1.5;
+            font-family: "Open Sans", sans-serif;
+          }
+
+          img {
+            max-width: 100%;
+          }
+
+          .card-container {
+            display: flex;
+            // flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 85vh;
+            // background: #444;
+          }
+
+          .card-blog {
+            position: relative;
+            background: #333;
+            width: 400px;
+            height: 75vh;
+            border-radius: 6px;
+            padding: 2rem;
+            color: #aaa;
+            box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.2),
+              0 0 1rem rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+          }
+
+          .card__image-container {
+            margin: -2rem -2rem 1rem -2rem;
+            cursor: pointer;
+          }
+
+          .card__line {
+            opacity: 0;
+            animation: LineFadeIn 0.8s 0.8s forwards ease-in;
+          }
+
+          .card__image {
+            opacity: 0;
+            animation: ImageFadeIn 0.8s 1.4s forwards;
+            height: 321px;
+            object-fit: cover;
+          }
+
+          .card__title {
+            color: white;
+            margin-top: 0;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          .card__title:hover {
+            color: #545580 !important;
+          }
+
+          .card__content {
+            margin-top: -3rem;
+            opacity: 0;
+            animation: ContentFadeIn 0.8s 1.6s forwards;
+          }
+          .card__content p {
+            color: #aaa !important;
+          }
+          .card__content .author {
+            cursor: pointer;
+          }
+          .card__content .author:hover {
+            color: #545580 !important;
+          }
+          .card__details {
+            --max-lines: 10;
+            --lh: 1.2rem;
+            max-height: calc(var(--lh) * var(--max-lines));
+            text-overflow: ellipsis;
+            overflow: hidden;
+            text-align: justify;
+          }
+          .card__details:before {
+            content: "...";
+            position: absolute;
+            bottom: 152px;
+            right: -16px;
+          }
+          // .card__details p {
+          //   --max-lines: 10;
+          //   --lh: 1.2rem;
+          //   max-height: calc(var(--lh) * var(--max-lines));
+          //   text-overflow: ellipsis;
+          //   overflow: hidden;
+          //   text-align: justify;
+          // }
+          // .card__details p:before {
+          //   content: "...";
+          //   position: absolute;
+          //   bottom: 152px;
+          //   right: -16px;
+          // }
+
+          .card__svg {
+            position: absolute;
+            left: 0;
+            top: 115px;
+            cursor: pointer;
+          }
+
+          @keyframes LineFadeIn {
+            0% {
+              opacity: 0;
+              d: path(
+                "M 0 300 Q 0 300 0 300 Q 0 300 0 300 C 0 300 0 300 0 300 Q 0 300 0 300 "
+              );
+              stroke: #fff;
+            }
+            50% {
+              opacity: 1;
+              d: path(
+                "M 0 300 Q 50 300 100 300 Q 250 300 350 300 C 350 300 500 300 650 300 Q 750 300 800 300"
+              );
+              stroke: #888bff;
+            }
+            100% {
+              opacity: 1;
+              d: path(
+                "M -2 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 802 400"
+              );
+              stroke: #545581;
+            }
+          }
+
+          @keyframes ContentFadeIn {
+            0% {
+              transform: translateY(-1rem);
+              opacity: 0;
+            }
+            100% {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+
+          @keyframes ImageFadeIn {
+            0% {
+              transform: translate(-0.5rem, -0.5rem) scale(1.05);
+              opacity: 0;
+              filter: blur(2px);
+            }
+            50% {
+              opacity: 1;
+              filter: blur(2px);
+            }
+            100% {
+              transform: translateY(0) scale(1);
+              opacity: 1;
+              filter: blur(0);
+            }
+          }
+
+          //Yeni
+
           .span p {
             // max-height: 130px;
             // white-space: nowrap;

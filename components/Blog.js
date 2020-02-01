@@ -46,9 +46,6 @@ class Blog extends React.Component {
       date: firebase.firestore.Timestamp.now(),
       message: this.state.commentText
     });
-    console.log("commentsArr");
-    console.log(commentsArr);
-    console.log("commentsArr");
     await firestore
       .collection("posts")
       .doc(this.props.post.slug)
@@ -62,12 +59,12 @@ class Blog extends React.Component {
         this.setState({
           commentText: ""
         });
-        alert("Comment sent...");
       })
       .catch(err => {
         console.log(err);
       });
   };
+  componentDidUpdate() {}
   render() {
     let enterCommentComponent = (
       <div className="media mt-3">
@@ -148,7 +145,6 @@ class Blog extends React.Component {
             <a
               className="read-more"
               onClick={() => {
-                console.log("asdasd");
                 this.setState({
                   showOrHideDetails: !this.state.showOrHideDetails
                 });
@@ -213,7 +209,7 @@ class Blog extends React.Component {
                   </div>
                 ) : //if caller bloglist and there are comments !not more than 2 SHOW HIDE
                 null}
-                {this.props.showOrHideComment
+                {this.state.showOrHideComment
                   ? this.props.post.comments.map((comment, index) => {
                       if (
                         index != this.props.post.comments.length - 2 &&
