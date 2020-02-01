@@ -13,7 +13,7 @@ const withAuth = Component => {
     }
     componentDidMount() {
       auth.onAuthStateChanged(authUser => {
-        // console.log(authUser);
+        localStorage.setItem("user", authUser.uid);
         if (!authUser.isAnonymous) {
           if (authUser.isAnonymous) {
             this.setState({

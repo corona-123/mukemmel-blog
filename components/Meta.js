@@ -49,6 +49,7 @@ export default function Meta() {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background: rgb(255, 255, 255);
+            height: -webkit-fill-available;
           }
           .wrap {
             display: -webkit-box;
@@ -807,13 +808,17 @@ export default function Meta() {
             box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
               0 9px 26px 0 rgba(0, 0, 0, 0.19);
             text-align: center;
-            width: 55%;
+            width: fit-content;
           }
           .login-form-1 h1 {
             text-align: center;
             margin-bottom: 12%;
             color: #fff;
           }
+          // .login-form-group {
+          //   background: #742f77;
+          //   padding: 30px;
+          // }
 
           .btnSubmit {
             font-weight: 600;
@@ -822,7 +827,7 @@ export default function Meta() {
             background-color: #fff;
             border: none;
             border-radius: 1.5rem;
-            padding: 2%;
+            padding: 20px;
           }
           .btnForgetPwd {
             color: #fff;

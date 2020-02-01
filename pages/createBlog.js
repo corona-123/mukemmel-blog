@@ -153,14 +153,20 @@ class CreateBlog extends React.Component {
                   placeholder="Enter Post Description here..."
                   rows="6"
                   onChange={text => {
+                    let val = text.target.value;
+                    let addedNewLine = val.replace(/\n/g, "\n\n");
                     this.setState({
-                      details: text.target.value
+                      details: addedNewLine
                     });
                   }}
                 />
               </div>
             </div>
-
+            {/* <textarea
+              className="form-control"
+              placeholder="Enter Post Description here..."
+              value={() => this.state.details.escapeHTML()}
+            /> */}
             <div className="form-group submit-field">
               <div className="btn btn-primary btn-sm float-left waves-effect col-sm-2">
                 <span>Submit</span>
