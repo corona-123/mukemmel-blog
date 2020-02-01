@@ -3,7 +3,6 @@ import LayoutTop from "../components/LayoutTop";
 
 class About extends React.Component {
   render() {
-    console.log(localStorage);
     return (
       <div className="container-fluid">
         <LayoutTop parent="about"></LayoutTop>
