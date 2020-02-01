@@ -16,7 +16,16 @@ import "firebase/database";
 import "firebase";
 import "firebase/storage";
 import { firebase, auth, firestore } from "../src/firebase/index";
-import { FacebookShareButton } from "react-share";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TwitterShareButton,
+  TwitterIcon
+} from "react-share";
 
 class BlogPost extends React.Component {
   constructor(props) {
@@ -216,7 +225,7 @@ class BlogPost extends React.Component {
             <span className="mt-4">{this.state.date}</span>
           </section>
           <div className="container social-container justify-content-end row mx-0 px-5">
-            <div className="right-social row float-right justify-content-around">
+            <div className="right-social row float-right justify-content-between">
               <a
                 className={`h4${
                   auth.currentUser.isAnonymous ? " isDisabled" : ""
@@ -229,19 +238,30 @@ class BlogPost extends React.Component {
                   : 0 + " "}
                 <FontAwesomeIcon icon={faHeart} width="35px"></FontAwesomeIcon>
               </a>
-              <div className="h4">
+              <div className="h4 mr-4">
                 {this.state.views + " "}
                 <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
               </div>
-
               <FacebookShareButton
                 url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
               >
-                <FontAwesomeIcon
-                  icon={faShareAlt}
-                  width="35px"
-                ></FontAwesomeIcon>
+                <FacebookIcon size={35} round={true}></FacebookIcon>
               </FacebookShareButton>
+              <TwitterShareButton
+                url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
+              >
+                <TwitterIcon size={35} round={true}></TwitterIcon>
+              </TwitterShareButton>
+              <LinkedinShareButton
+                url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
+              >
+                <LinkedinIcon size={35} round={true}></LinkedinIcon>
+              </LinkedinShareButton>
+              <WhatsappShareButton
+                url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
+              >
+                <WhatsappIcon size={35} round={true}></WhatsappIcon>
+              </WhatsappShareButton>
             </div>
           </div>
           <div className="mt-5 blog-bottom">
@@ -315,7 +335,7 @@ class BlogPost extends React.Component {
         color: #aaa;
       }
       .right-social {
-        width: 20%;
+        width: 35%;
       }
       .right-social a {
         cursor pointer;
