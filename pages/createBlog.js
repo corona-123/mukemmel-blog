@@ -84,22 +84,23 @@ class CreateBlog extends React.Component {
     return (
       <div className="layout">
         <LayoutTop></LayoutTop>
-        <div className="container create-post">
-          <h1 className="display-1">
+        <div className="container-fluid create-post">
+          {/* <h1 className="display-1">
             <u>Create Blog : </u>
           </h1>
-          <br></br>
-          <form className="form-horizontal" action="a">
-            <div className="form-group file-field">
+          <br></br> */}
+          <form className="form-field row" action="a">
+            <div className="form-group file-field col">
               <div className="z-depth-1-half mb-4 col-sm text-center">
                 <img
                   src={img}
-                  className="img-fluid border border-dark"
+                  className="img border border-dark img-input"
                   alt="placeholder"
                 />
               </div>
+              <h4 className="text-center mb-5">Choose a photo to upload!</h4>
               <div className="w-100 text-center">
-                <div className="btn btn-primary btn-sm waves-effect col-sm-2">
+                <div className="btn btn-dn btn-sm waves-effect col-sm-2">
                   <span>Choose file</span>
                   <input
                     type="file"
@@ -122,44 +123,51 @@ class CreateBlog extends React.Component {
                 </div>
               </div>
             </div>
-            <h4 className="text-center mb-5">Choose a photo to upload!</h4>
-            <div className="form-group">
-              <label className="control-label col-sm-2" htmlFor="email">
-                Title:
-              </label>
-              <div className="col-sm">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="title"
-                  placeholder="Enter Title.."
-                  name="title"
-                  maxLength="35"
-                  onChange={text => {
-                    this.setState({
-                      title: text.target.value
-                    });
-                  }}
-                />
+            <div className="container col text-field text-left">
+              <div className="form-group">
+                <label className="control-label " htmlFor="email">
+                  Title:
+                </label>
+                <div className="col-sm">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="title"
+                    placeholder="Enter Title.."
+                    name="title"
+                    maxLength="35"
+                    onChange={text => {
+                      this.setState({
+                        title: text.target.value
+                      });
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="form-group">
-              <label className="control-label col-sm-2" htmlFor="pwd">
-                Your Post:
-              </label>
-              <div className="col-sm">
-                <textarea
-                  className="form-control"
-                  placeholder="Enter Post Description here..."
-                  rows="6"
-                  onChange={text => {
-                    let val = text.target.value;
-                    let addedNewLine = val.replace(/\n/g, "\n\n");
-                    this.setState({
-                      details: addedNewLine
-                    });
-                  }}
-                />
+              <div className="form-group">
+                <label className="control-label" htmlFor="pwd">
+                  Your Post:
+                </label>
+                <div className="col-sm">
+                  <textarea
+                    className="form-control"
+                    placeholder="Enter Post Description here..."
+                    rows="20"
+                    onChange={text => {
+                      let val = text.target.value;
+                      let addedNewLine = val.replace(/\n/g, "\n\n");
+                      this.setState({
+                        details: addedNewLine
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="form-group submit-field">
+                <div className="btn btn-dn btn-sm float-left waves-effect col-sm-2 float-right">
+                  <span>Submit</span>
+                  <a className="submit-button" onClick={this.createPost}></a>
+                </div>
               </div>
             </div>
             {/* <textarea
@@ -167,12 +175,6 @@ class CreateBlog extends React.Component {
               placeholder="Enter Post Description here..."
               value={() => this.state.details.escapeHTML()}
             /> */}
-            <div className="form-group submit-field">
-              <div className="btn btn-primary btn-sm float-left waves-effect col-sm-2">
-                <span>Submit</span>
-                <a className="submit-button" onClick={this.createPost}></a>
-              </div>
-            </div>
           </form>
         </div>
       </div>

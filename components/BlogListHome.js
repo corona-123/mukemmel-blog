@@ -13,7 +13,7 @@ const BlogList = ({ posts }) => {
       {posts.map((post, index) => (
         // <Blog post={post} caller={"bloglist"} key={i++}></Blog>
 
-        <div className="card-container mx-5" key={index}>
+        <div className="card-container mx-3" key={index}>
           <div className="card-blog">
             <Link href={post.slug}>
               <div className="card__image-container text-center">

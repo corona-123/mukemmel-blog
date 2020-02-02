@@ -401,7 +401,7 @@ export default function Meta() {
             max-height: calc(var(--lh) * var(--max-lines));
             text-overflow: ellipsis;
             overflow: hidden;
-            text-align: justify;
+            // text-align: justify;
           }
           .card__details:before {
             content: "...";
@@ -629,6 +629,16 @@ export default function Meta() {
           //   overflow: hidden;
           //   height: fit-content;
           // }
+          .form-field {
+            background: #333;
+            color: #aaa;
+            padding: 50px;
+            border-radius: 6px;
+          }
+          .img-input {
+            height: 522px;
+            object-fit: fill;
+          }
           .file-field {
             cursor: pointer;
             z-indez: 100;
@@ -653,6 +663,11 @@ export default function Meta() {
             z-indez: 100;
             text-transform: uppercase;
           }
+          .btn-dn {
+            border-color: #742f77;
+            background-color: #742f77;
+            color: #fff;
+          }
           .submit-button {
             position: absolute;
             top: 0;
@@ -667,13 +682,8 @@ export default function Meta() {
             filter: alpha(opacity=0);
           }
           .create-post {
-            padding: 10%;
-            background: rgba(250, 250, 250, 1);
-            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
-              0 9px 26px 0 rgba(0, 0, 0, 0.19);
-            // text-align: center;
-            width: 100%;
-            border-radius: 10em;
+            padding: 50px;
+            text-align: center;
           }
           .white-background {
             background: white;

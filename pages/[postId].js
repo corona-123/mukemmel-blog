@@ -7,7 +7,8 @@ import {
   faPaperPlane,
   faHeart,
   faEye,
-  faShareAlt
+  faShareAlt,
+  faBookmark
 } from "@fortawesome/free-solid-svg-icons";
 // import Blog from "../components/Blog";
 import Comment from "../components/Comment";
@@ -45,11 +46,13 @@ class BlogPost extends React.Component {
       liked: false,
       favourite: false,
       showPopup: false,
-      userID: 0
+      userID: 0,
+      favouritesArray: []
     };
   }
 
   componentDidMount = async () => {
+    await this.getFavourite;
     await firestore
       .collection("posts")
       .doc(this.props.postId)
@@ -102,6 +105,23 @@ class BlogPost extends React.Component {
         console.log(err);
       })
       .then(async () => {
+        let favouritesArr = [];
+        await firestore
+          .collection("users")
+          .doc(auth.currentUser.uid)
+          .get()
+          .then(user => {
+            favouritesArr = user.data().favourites;
+            let isFavourited = false;
+            isFavourited = favouritesArr.includes(this.state.slug);
+            this.setState({
+              favouritesArray: favouritesArr,
+              favourite: isFavourited
+            });
+          })
+          .catch(err => console.log(err));
+      })
+      .then(async () => {
         await firestore
           .collection("posts")
           .doc(this.props.postId)
@@ -128,7 +148,28 @@ class BlogPost extends React.Component {
   };
   componentDidUpdate() {}
   handleFavourite = async () => {
-    //implement favourite
+    let favouritesArr = this.state.favouritesArray;
+    this.setState({ favourite: !this.state.favourite });
+
+    let index = favouritesArr.indexOf(this.state.slug);
+    if (this.state.favourite) {
+      favouritesArr.splice(index, 1);
+    } else {
+      favouritesArr.push(this.state.slug);
+    }
+    await firestore
+      .collection("users")
+      .doc(auth.currentUser.uid)
+      .set(
+        {
+          favourites: favouritesArr
+        },
+        { merge: true }
+      )
+      .then(() => {})
+      .catch(err => {
+        console.log(err);
+      });
   };
   handleSubmitComment = async () => {
     if (auth.currentUser != null && auth.currentUser != undefined) {
@@ -231,7 +272,7 @@ class BlogPost extends React.Component {
           <div className="container social-container justify-content-end row mx-0 px-5">
             <div className="right-social row float-right justify-content-between">
               <a
-                className={`h4${
+                className={`mr-2 h4${
                   auth.currentUser.isAnonymous ? " isDisabled" : ""
                 }`}
                 style={{ color: this.state.liked ? "#742f77" : "#aaa" }}
@@ -242,18 +283,21 @@ class BlogPost extends React.Component {
                   : 0 + " "}
                 <FontAwesomeIcon icon={faHeart} width="35px"></FontAwesomeIcon>
               </a>
-              <div className="h4 mr-4">
+              <div className="mr-3 h4">
                 {this.state.views + " "}
                 <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
               </div>
               <a
-                className={`h4${
+                className={`mr-4 h4${
                   auth.currentUser.isAnonymous ? " isDisabled" : ""
                 }`}
                 style={{ color: this.state.favourite ? "#742f77" : "#aaa" }}
                 onClick={this.handleFavourite}
               >
-                <FontAwesomeIcon icon={faHeart} width="35px"></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  width="26px"
+                ></FontAwesomeIcon>
               </a>
               <FacebookShareButton
                 url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
