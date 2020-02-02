@@ -43,6 +43,7 @@ class BlogPost extends React.Component {
       commentText: "",
       commentor: "Guest",
       liked: false,
+      favourite: false,
       showPopup: false,
       userID: 0
     };
@@ -126,6 +127,9 @@ class BlogPost extends React.Component {
       .catch(err => console.log());
   };
   componentDidUpdate() {}
+  handleFavourite = async () => {
+    //implement favourite
+  };
   handleSubmitComment = async () => {
     if (auth.currentUser != null && auth.currentUser != undefined) {
       if (!auth.currentUser.isAnonymous)
@@ -242,6 +246,15 @@ class BlogPost extends React.Component {
                 {this.state.views + " "}
                 <FontAwesomeIcon icon={faEye} width="35px"></FontAwesomeIcon>
               </div>
+              <a
+                className={`h4${
+                  auth.currentUser.isAnonymous ? " isDisabled" : ""
+                }`}
+                style={{ color: this.state.favourite ? "#742f77" : "#aaa" }}
+                onClick={this.handleFavourite}
+              >
+                <FontAwesomeIcon icon={faHeart} width="35px"></FontAwesomeIcon>
+              </a>
               <FacebookShareButton
                 url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
               >
