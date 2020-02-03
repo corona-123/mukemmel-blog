@@ -60,10 +60,12 @@ const Profile = ({ User, otherProfile }) => {
   } else {
     display = "Guest";
     image = otherProfile ? (
-      <div className="container float-left mr-4 profile-information">
-        <FontAwesomeIcon icon={faUser} width="100px"></FontAwesomeIcon>
-        {display}
-      </div>
+      <img
+        src={
+          "https://w0.pngwave.com/png/18/809/user-computer-icons-person-icon-png-clip-art.png"
+        }
+        className="container float-left mr-4 profile-information"
+      ></img>
     ) : (
       <div className="container float-right mr-4 mini-profile">
         <FontAwesomeIcon icon={faUser} width="35px"></FontAwesomeIcon>
