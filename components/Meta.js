@@ -333,7 +333,7 @@ export default function Meta() {
             // flex-direction: row;
             align-items: center;
             justify-content: center;
-            height: 85vh;
+            height: 730px;
             // background: #444;
           }
 
@@ -341,7 +341,7 @@ export default function Meta() {
             position: relative;
             background: #333;
             width: 400px;
-            height: 75vh;
+            height: 700px;
             border-radius: 6px;
             padding: 2rem;
             color: #aaa;
