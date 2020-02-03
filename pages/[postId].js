@@ -74,13 +74,16 @@ class BlogPost extends React.Component {
           details: snapshot.data().details,
           likes: snapshot.data().likes,
           views: snapshot.data().views,
-          liked: auth.currentUser.isAnonymous
-            ? "nope"
-            : snapshot
-                .data()
-                .likes.includes(
-                  !auth.currentUser.isAnonymous ? auth.currentUser.uid : "nope"
-                ),
+          liked:
+            auth.currentUser == null
+              ? "nope"
+              : snapshot
+                  .data()
+                  .likes.includes(
+                    !auth.currentUser.isAnonymous
+                      ? auth.currentUser.uid
+                      : "nope"
+                  ),
           userID: snapshot.data().userID
         });
       })
@@ -108,7 +111,7 @@ class BlogPost extends React.Component {
       })
       .then(async () => {
         let favouritesArr = [];
-        if (!auth.currentUser.isAnonymous) {
+        if (auth.currentUser != null) {
           await firestore
             .collection("users")
             .doc(auth.currentUser.uid)
@@ -242,7 +245,7 @@ class BlogPost extends React.Component {
   };
 
   render() {
-    return auth.currentUser != undefined && auth.currentUser != null ? (
+    return (
       <div className="layout">
         <LayoutTop></LayoutTop>
         <div
@@ -277,7 +280,11 @@ class BlogPost extends React.Component {
             <div className="right-social row float-right justify-content-between">
               <a
                 className={`mr-2 h4${
-                  auth.currentUser.isAnonymous ? " isDisabled" : ""
+                  auth.currentUser != null
+                    ? auth.currentUser.isAnonymous
+                      ? " isDisabled"
+                      : ""
+                    : "isDisabled"
                 }`}
                 style={{ color: this.state.liked ? "#742f77" : "#aaa" }}
                 onClick={this.handleLike}
@@ -293,7 +300,11 @@ class BlogPost extends React.Component {
               </div>
               <a
                 className={`mr-4 h4${
-                  auth.currentUser.isAnonymous ? " isDisabled" : ""
+                  auth.currentUser != null
+                    ? auth.currentUser.isAnonymous
+                      ? " isDisabled"
+                      : ""
+                    : "isDisabled"
                 }`}
                 style={{ color: this.state.favourite ? "#742f77" : "#aaa" }}
                 onClick={this.handleFavourite}
@@ -342,7 +353,7 @@ class BlogPost extends React.Component {
                     ? auth.currentUser.isAnonymous
                       ? "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
                       : auth.currentUser.photoURL
-                    : null
+                    : "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
                 }
                 alt="Generic placeholder image"
                 height="100px"
@@ -361,19 +372,33 @@ class BlogPost extends React.Component {
                     id="Textarea"
                     rows="3"
                     placeholder={
-                      auth.currentUser.isAnonymous
-                        ? "You must sign in to write a comment!"
-                        : "Write your comment..."
+                      auth.currentUser != null
+                        ? auth.currentUser.isAnonymous
+                          ? "You must sign in to write a comment!"
+                          : "Write your comment..."
+                        : "You must sign in to write a comment!"
                     }
                     value={this.state.commentText}
                     onChange={text => {
                       this.setState({ commentText: text.target.value });
                     }}
-                    disabled={auth.currentUser.isAnonymous ? true : false}
+                    disabled={
+                      auth.currentUser != null
+                        ? auth.currentUser.isAnonymous
+                          ? true
+                          : false
+                        : true
+                    }
                   ></textarea>
                   <a
                     className={`btn-floating btn-primary rounded-circle send-comment-button
-                    ${auth.currentUser.isAnonymous ? " isDisabled" : ""}`}
+                    ${
+                      auth.currentUser != null
+                        ? auth.currentUser.isAnonymous
+                          ? " isDisabled"
+                          : ""
+                        : "isDisabled"
+                    }`}
                     onClick={this.handleSubmitComment}
                   >
                     <FontAwesomeIcon
@@ -405,8 +430,6 @@ class BlogPost extends React.Component {
       }
     `}</style>
       </div>
-    ) : (
-      <Loading></Loading>
     );
   }
 }

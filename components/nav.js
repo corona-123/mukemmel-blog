@@ -79,7 +79,7 @@ const Nav = () => (
                 ? auth.currentUser.isAnonymous
                   ? faSignInAlt
                   : faSignOutAlt
-                : null
+                : faSignInAlt
             }
             width="1.5rem"
           ></FontAwesomeIcon>
@@ -89,7 +89,7 @@ const Nav = () => (
               ? auth.currentUser.isAnonymous
                 ? "Sign in"
                 : "Sign out"
-              : null}
+              : "Sign in"}
           </span>
         </a>
       </li>

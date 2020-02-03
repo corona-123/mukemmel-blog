@@ -59,7 +59,7 @@ class DynamicProfile extends React.Component {
                 image = photo;
               })
               .catch(err => {
-                console.log("err");
+                console.log(err);
                 image =
                   "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
               })

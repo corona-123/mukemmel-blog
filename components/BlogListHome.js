@@ -77,8 +77,10 @@ const BlogList = ({ posts }) => {
                   <span>by </span>
                   <Link
                     href={
-                      auth.currentUser.uid == post.userID
-                        ? "/profile"
+                      auth != null && auth.currentUser != null
+                        ? auth.currentUser.uid == post.userID
+                          ? "/profile"
+                          : `/profile/${[post.userID]}`
                         : `/profile/${[post.userID]}`
                     }
                   >

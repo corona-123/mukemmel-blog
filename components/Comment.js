@@ -16,8 +16,10 @@ const Comment = ({ Comment }) => {
       <img
         className="d-flex rounded-circle avatar z-depth-1-half mr-3"
         src={
-          auth.currentUser.uid == Comment.commentorID
-            ? auth.currentUser.photoURL
+          auth.currentUser != null
+            ? auth.currentUser.uid == Comment.commentorID
+              ? auth.currentUser.photoURL
+              : "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
             : "http://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
         }
         height="100px"

@@ -13,15 +13,13 @@ const withAuth = Component => {
     }
     componentDidMount() {
       auth.onAuthStateChanged(authUser => {
-        if (!authUser.isAnonymous) {
-          if (authUser.isAnonymous) {
-            this.setState({
-              status: "GUEST"
-            });
-          } else {
+        if (authUser != null) {
+          if (!authUser.isAnonymous) {
             this.setState({
               status: "SIGNED_IN"
             });
+          } else {
+            router.push("/Login");
           }
         } else {
           router.push("/Login");

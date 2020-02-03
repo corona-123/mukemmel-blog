@@ -5,6 +5,7 @@ export default function Meta() {
   const router = useRouter();
   const slug = router.pathname;
   const postId = router.query.postId;
+  const profile = router.query.profile;
   let title;
   if (slug == "/") {
     title = "Home";
@@ -12,6 +13,9 @@ export default function Meta() {
     title = slug.replace(/\//g, " ");
     if (postId != undefined) {
       title = `Blogs/ ${postId}`;
+    }
+    if (profile != undefined) {
+      title = `Profile/ ${profile}`;
     }
   }
   return (
