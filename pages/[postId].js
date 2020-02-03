@@ -74,11 +74,13 @@ class BlogPost extends React.Component {
           details: snapshot.data().details,
           likes: snapshot.data().likes,
           views: snapshot.data().views,
-          liked: snapshot
-            .data()
-            .likes.includes(
-              !auth.currentUser.isAnonymous ? auth.currentUser.uid : "nope"
-            ),
+          liked: auth.currentUser.isAnonymous
+            ? "nope"
+            : snapshot
+                .data()
+                .likes.includes(
+                  !auth.currentUser.isAnonymous ? auth.currentUser.uid : "nope"
+                ),
           userID: snapshot.data().userID
         });
       })
@@ -106,20 +108,22 @@ class BlogPost extends React.Component {
       })
       .then(async () => {
         let favouritesArr = [];
-        await firestore
-          .collection("users")
-          .doc(auth.currentUser.uid)
-          .get()
-          .then(user => {
-            favouritesArr = user.data().favourites;
-            let isFavourited = false;
-            isFavourited = favouritesArr.includes(this.state.slug);
-            this.setState({
-              favouritesArray: favouritesArr,
-              favourite: isFavourited
-            });
-          })
-          .catch(err => console.log(err));
+        if (!auth.currentUser.isAnonymous) {
+          await firestore
+            .collection("users")
+            .doc(auth.currentUser.uid)
+            .get()
+            .then(user => {
+              favouritesArr = user.data().favourites;
+              let isFavourited = false;
+              isFavourited = favouritesArr.includes(this.state.slug);
+              this.setState({
+                favouritesArray: favouritesArr,
+                favourite: isFavourited
+              });
+            })
+            .catch(err => console.log(err));
+        }
       })
       .then(async () => {
         await firestore

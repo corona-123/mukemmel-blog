@@ -139,9 +139,7 @@ class Home extends React.Component {
   //   }
   // };
   render() {
-    return this.state.isLoading ||
-      auth.currentUser == null ||
-      auth.currentUser == undefined ? (
+    return this.state.isLoading ? (
       <Loading></Loading>
     ) : (
       <div className="layout">
