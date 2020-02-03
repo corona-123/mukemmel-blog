@@ -127,11 +127,7 @@ class DynamicProfile extends React.Component {
     this.setState({ isLoading: false });
   };
   render() {
-    return this.state.isLoading ||
-      auth.currentUser == undefined ||
-      auth.currentUser == null ? (
-      <Loading></Loading>
-    ) : (
+    return (
       <section>
         <LayoutTop></LayoutTop>
         <div className=" mt-5 mr-1 ml-1 border profile-background">

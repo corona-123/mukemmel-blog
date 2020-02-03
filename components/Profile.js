@@ -59,7 +59,12 @@ const Profile = ({ User, otherProfile }) => {
     }
   } else {
     display = "Guest";
-    image = (
+    image = otherProfile ? (
+      <div className="container float-left mr-4 profile-information">
+        <FontAwesomeIcon icon={faUser} width="100px"></FontAwesomeIcon>
+        {display}
+      </div>
+    ) : (
       <div className="container float-right mr-4 mini-profile">
         <FontAwesomeIcon icon={faUser} width="35px"></FontAwesomeIcon>
         {display}
