@@ -299,6 +299,7 @@ class BlogPost extends React.Component {
                   width="26px"
                 ></FontAwesomeIcon>
               </a>
+              {/* <section> */}
               <FacebookShareButton
                 url={`http://dn-blog-sayfasi-ama-degil.herokuapp.com/${this.state.slug}`}
               >
@@ -319,6 +320,7 @@ class BlogPost extends React.Component {
               >
                 <WhatsappIcon size={35} round={true}></WhatsappIcon>
               </WhatsappShareButton>
+              {/* </section> */}
             </div>
           </div>
           <div className="mt-5 blog-bottom">
@@ -392,7 +394,7 @@ class BlogPost extends React.Component {
         color: #aaa;
       }
       .right-social {
-        width: 35%;
+        width: fit-content;
       }
       .right-social a {
         cursor pointer;
