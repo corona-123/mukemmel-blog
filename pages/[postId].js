@@ -284,7 +284,7 @@ class BlogPost extends React.Component {
                     ? auth.currentUser.isAnonymous
                       ? " isDisabled"
                       : ""
-                    : "isDisabled"
+                    : " isDisabled"
                 }`}
                 style={{ color: this.state.liked ? "#742f77" : "#aaa" }}
                 onClick={this.handleLike}
@@ -304,7 +304,7 @@ class BlogPost extends React.Component {
                     ? auth.currentUser.isAnonymous
                       ? " isDisabled"
                       : ""
-                    : "isDisabled"
+                    : " isDisabled"
                 }`}
                 style={{ color: this.state.favourite ? "#742f77" : "#aaa" }}
                 onClick={this.handleFavourite}
@@ -397,7 +397,7 @@ class BlogPost extends React.Component {
                         ? auth.currentUser.isAnonymous
                           ? " isDisabled"
                           : ""
-                        : "isDisabled"
+                        : " isDisabled"
                     }`}
                     onClick={this.handleSubmitComment}
                   >
