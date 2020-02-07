@@ -50,10 +50,15 @@ const Profile = ({ User, otherProfile }) => {
             title={display}
           ></img>
         ) : (
-          <div className="container float-right mr-4 mini-profile">
-            <FontAwesomeIcon icon={faUser} width="35px"></FontAwesomeIcon>
-            {display}
-          </div>
+          <img
+            src={
+              otherProfile
+                ? "https://w0.pngwave.com/png/18/809/user-computer-icons-person-icon-png-clip-art.png"
+                : user.photoURL
+            }
+            className="container float-right mr-4 mini-profile"
+            title={display}
+          ></img>
         );
       }
     }

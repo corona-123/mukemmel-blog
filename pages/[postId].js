@@ -151,7 +151,7 @@ class BlogPost extends React.Component {
             });
           });
       })
-      .catch(err => console.log());
+      .catch(err => console.log(err));
   };
   componentDidUpdate() {}
   handleFavourite = async () => {
@@ -265,7 +265,7 @@ class BlogPost extends React.Component {
                     ? auth.currentUser.uid == this.state.userID
                       ? "/profile"
                       : `/profile/${[this.state.userID]}`
-                    : null
+                    : `/profile/${[this.state.userID]}`
                 }
               >
                 <a className="text-center" href="/profile">

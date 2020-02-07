@@ -54,7 +54,6 @@ class ProfileBlogs extends React.Component {
       .doc(auth.currentUser.uid)
       .get()
       .then(doc => {
-        console.log(doc);
         doc.data().favourites.forEach(async postID => {
           let image = null;
           let ref = firebase.storage().ref(`posts/${postID}`);
@@ -130,7 +129,7 @@ class ProfileBlogs extends React.Component {
                 image = photo;
               })
               .catch(err => {
-                console.log("err");
+                console.log(err);
                 image =
                   "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
               })
